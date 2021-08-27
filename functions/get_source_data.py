@@ -274,7 +274,7 @@ def select_tabular_patient_data(connection, tables, tag_definition, patient_id, 
     for column in df.columns:
         columns.append(column)
     # column_hash = schema_string(columns)
-    return df.to_dict('index')
+    return df
     # return df.to_dict('index'), column_hash
 
 

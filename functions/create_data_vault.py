@@ -1,13 +1,48 @@
 from sqlalchemy import schema
 from functions.fcrb_data_vault import fcrb_data_vault
 from control_files.fcrb_keys_and_sats import fcrb_keys, fcrb_sats
+import pandas as pd
+
+def create_hubs(keys):
+    hub_time = pd.DataFrame(columns=keys)
+    hub_person = pd.DataFrame(columns=keys)
+    hub_object = pd.DataFrame(columns=keys)
+    hub_location = pd.DataFrame(columns=keys)
+    hub_event = pd.DataFrame(columns=keys)
+    return hub_time, hub_person, hub_object, hub_location, hub_event
+
+def create_key_dict(all_keys):
+    key_dict = {}
+    for key in all_keys:
+        key_dict[key] = ''
+    return key_dict
+
+def fill_hubs(fcrb_keys, row):
+    print(row)
+    key_dict = create_key_dict(fcrb_keys)
+
 
 def create_data_vault(source_data, body):
-    schema = fcrb_data_vault()
+    """This is a single hospital's full data set"""
     for hospital in body['hospital_ids']:
         data = source_data[hospital]
-        for source_table in data.keys():
-            sats = fcrb_sats[source_table]
-            for sat in sats.keys():
-                print(f"SOURCE TABLE: {source_table}")
-                print(sats[sat])
+
+        """This is a single table from the data set and picks the keys"""
+        for source_table_name in data.keys():
+            table = data[source_table_name]
+            table_keys = []
+            for key in fcrb_keys:
+                if key in table.columns:
+                    table_keys.append(key)
+
+            """Fill the hubs with the values for the primary keys"""
+            # [fill_hubs(fcrb_keys, row) for row in zip((table[table_key] for table_key in table_keys))]
+            # print([x for x in [table[table_key] for table_key in table_keys]])
+            # print([table_key for table_key in table_keys])
+            remaining_columns = [column for column in table.columns if column not in set(table_keys)]
+            remaining_fields = table[remaining_columns]
+            print(remaining_fields)
+
+            hub_fields = table[table_keys]
+            print(hub_fields)
+
