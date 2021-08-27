@@ -313,7 +313,8 @@ def select_image_patient_data(session, tables, tag_definition, patient_id, key_n
 # Selecting the data based on the tags
 
 
-def select_patient_data(connection, tags_definitions, patient_id, key_name, proof_id):
+def select_patient_data(connection, tags_definitions, patient_id, key_name):
+# def select_patient_data(connection, tags_definitions, patient_id, key_name, proof_id):
     """Used to determine the type of data selection to be used i.e. image, tabular, or graph. Calls the relevant function.
     
             Parameters:
