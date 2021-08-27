@@ -1,0 +1,302 @@
+[
+    {
+        "tag": "all",
+        "source": "zmc.wearable",
+        "fields": [
+            "patnr",
+            "date",
+            "w_time",
+            "w_steps",
+            "w_cad",
+            "sst",
+            "sst_time",
+            "cyc_time",
+            "cyc_steps",
+            "cyc_cad"
+        ],
+        "key_lookup": {},
+        "table": true,
+        "graph": false,
+        "image": false
+    },
+    {
+        "tag": "all",
+        "source": "zmc.complaints_and_diagnosis",
+        "fields": [
+            "patnr",
+            "complaints_and_diagnosis",
+            "status",
+            "specialism",
+            "type",
+            "name_of_diagnosis_or_complaint",
+            "anatomical_location",
+            "laterality",
+            "begin_date",
+            "end_date"
+        ],
+        "key_lookup": {},
+        "table": true,
+        "graph": false,
+        "image": false
+    },
+    {
+        "tag": "all",
+        "source": "zmc.medication_agreements",
+        "fields": [
+            "patnr",
+            "medicines",
+            "prescribed_by",
+            "description"
+        ],
+        "key_lookup": {},
+        "table": true,
+        "graph": false,
+        "image": false
+    },
+    {
+        "tag": "all",
+        "source": "zmc.medication_use",
+        "fields": [
+            "patnr",
+            "product",
+            "use",
+            "reason"
+        ],
+        "key_lookup": {},
+        "table": true,
+        "graph": false,
+        "image": false
+    },
+    {
+        "tag": "all",
+        "source": "zmc.medical_aids_and_tools",
+        "fields": [
+            "patnr",
+            "product_description",
+            "anatomical_location",
+            "description"
+        ],
+        "key_lookup": {},
+        "table": true,
+        "graph": false,
+        "image": false
+    },
+    {
+        "tag": "all",
+        "source": "zmc.bloodpressure",
+        "fields": [
+            "patnr",
+            "value",
+            "position",
+            "description",
+            "date",
+            "systolic_bloodpressure",
+            "diastolic_bloodpressure",
+            "measurement_method",
+            "manchette_type",
+            "measurement_location",
+            "description"
+        ],
+        "key_lookup": {},
+        "table": true,
+        "graph": false,
+        "image": false
+    },
+    {
+        "tag": "all",
+        "source": "zmc.weight",
+        "fields": [
+            "patnr",
+            "measurement",
+            "clothes",
+            "description",
+            "date"
+        ],
+        "key_lookup": {},
+        "table": true,
+        "graph": false,
+        "image": false
+    },
+    {
+        "tag": "all",
+        "source": "zmc.length",
+        "fields": [
+            "patnr",
+            "measurement",
+            "description",
+            "date"
+        ],
+        "key_lookup": {},
+        "table": true,
+        "graph": false,
+        "image": false
+    },
+    {
+        "tag": "all",
+        "source": "zmc.registered_events",
+        "fields": [
+            "patnr",
+            "type",
+            "method",
+            "anatomical_location",
+            "laterality",
+            "start_date",
+            "end_date",
+            "indication",
+            "executor",
+            "requested_by",
+            "location",
+            "description",
+            "date"
+        ],
+        "key_lookup": {},
+        "table": true,
+        "graph": false,
+        "image": false
+    },
+    {
+        "tag": "all",
+        "source": "zmc.warning",
+        "fields": [
+            "patnr",
+            "alerts",
+            "begindate",
+            "type"
+        ],
+        "key_lookup": {},
+        "table": true,
+        "graph": false,
+        "image": false
+    },
+    {
+        "tag": "all",
+        "source": "zmc.functional_or_mental_state",
+        "fields": [
+            "patnr",
+            "name",
+            "value",
+            "date"
+        ],
+        "key_lookup": {},
+        "table": true,
+        "graph": false,
+        "image": false
+    },
+    {
+        "tag": "all",
+        "source": "zmc.living_situation",
+        "fields": [
+            "patnr",
+            "house_type",
+            "description"
+        ],
+        "key_lookup": {},
+        "table": true,
+        "graph": false,
+        "image": false
+    },
+    {
+        "tag": "all",
+        "source": "zmc.drug_use",
+        "fields": [
+            "patnr",
+            "substance",
+            "quantity",
+            "description"
+        ],
+        "key_lookup": {},
+        "table": true,
+        "graph": false,
+        "image": false
+    },
+    {
+        "tag": "all",
+        "source": "zmc.alcohol_use",
+        "fields": [
+            "patnr",
+            "usage_status",
+            "quantity",
+            "description"
+        ],
+        "key_lookup": {},
+        "table": true,
+        "graph": false,
+        "image": false
+    },
+    {
+        "tag": "all",
+        "source": "zmc.tobacco_use",
+        "fields": [
+            "patnr",
+            "substance",
+            "quantity",
+            "description"
+        ],
+        "key_lookup": {},
+        "table": true,
+        "graph": false,
+        "image": false
+    },
+    {
+        "tag": "all",
+        "source": "zmc.allergies",
+        "fields": [
+            "patnr",
+            "caustive_substance",
+            "critical",
+            "description"
+        ],
+        "key_lookup": {},
+        "table": true,
+        "graph": false,
+        "image": false
+    },
+    {
+        "tag": "all",
+        "source": "zmc.documents",
+        "fields": [
+            "patnr",
+            "document_title",
+            "type",
+            "date",
+            "document"
+        ],
+        "key_lookup": {},
+        "table": true,
+        "graph": false,
+        "image": true
+    },
+    {
+        "tag": "all",
+        "source": "zmc.images",
+        "fields": [
+            "patnr",
+            "image_title",
+            "type",
+            "date",
+            "image"
+        ],
+        "key_lookup": {},
+        "table": true,
+        "graph": false,
+        "image": true
+    },
+    {
+        "tag": "all",
+        "source": "zmc.patient_details",
+        "fields": [
+            "patnr",
+            "nname",
+            "nnams",
+            "vname",
+            "titel",
+            "gschl",
+            "gbdat",
+            "natio"
+        ],
+        "key_lookup": {},
+        "table": true,
+        "graph": false,
+        "image": false
+    }
+]
