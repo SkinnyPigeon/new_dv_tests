@@ -1,11 +1,11 @@
 from functions.get_source_data import get_patient_data
-from functions.create_data_vault import create_data_vault
+from functions.create_data_vault import build_hubs_and_satellites, fill_data_vault
 
 body = {
   "serums_id": 364,
   "rule_id": "RULE_0df8eb8b-a469-46ae-8119-fbf98fa05b92",
   "tags": [
-    "medication"
+    "patient_address"
   ],
   "hospital_ids": [
     "FCRB"
@@ -14,4 +14,6 @@ body = {
 }
 
 data = get_patient_data(body)
-create_data_vault(data, body)
+fill_data_vault(data, body)
+# results = build_hubs_and_satellites(data, body)
+# print(results)
