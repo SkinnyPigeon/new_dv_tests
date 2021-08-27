@@ -48,7 +48,7 @@ def build_satellites(source_table_name, remaining_fields):
                 'table': satellite
             }
             satellites.append(satellite_details)
-    print(satellites)
+    return satellites
 
 def create_data_vault(source_data, body):
     """This is a single hospital's full data set"""
@@ -58,11 +58,14 @@ def create_data_vault(source_data, body):
         """This is a single table from the data set and picks the keys"""
         for source_table_name in data.keys():
             table, table_keys = get_table_and_table_keys(data, source_table_name)
+            print(table)
             
             """Fill the hubs with the values for the primary keys"""
             remaining_fields = get_remaining_fields(table, table_keys)
             hubs = build_hubs(table, table_keys)
-            print(hubs)
             satellites = build_satellites(source_table_name, remaining_fields)
+            print(hubs)
+            for satellite in satellites:
+                print(satellite['table'])
             
 
