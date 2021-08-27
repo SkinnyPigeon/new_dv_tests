@@ -304,5 +304,3 @@ def fcrb_data_vault():
 
     Base.metadata.create_all(engine)
     engine.dispose()
-
-fcrb_data_vault()
