@@ -1,4 +1,5 @@
-from sqlalchemy import create_engine, MetaData, insert
+from sqlalchemy import create_engine, MetaData, insert, select
+from sqlalchemy import func
 from sqlalchemy.ext.automap import automap_base
 from sqlalchemy.orm import sessionmaker
 
@@ -132,10 +133,31 @@ def fill_data_vault(data, body):
                 satellite_table = satellite['table'].reset_index(drop=True)
                 
                 satellite_class = get_table_class(schema, connection['base'], satellite_name)
-                # print(satellite_class)
+                key_range = {}
+                if satellite_class is not None:
+                    result = connection['engine'].execute(func.max(satellite_class.id)).fetchone()
+                    if result[0] == None:
+                        key_range['start'] = 0
+                    else:
+                        key_range['start'] = result[0]
                 hub_class = get_table_class(schema, connection['base'], satellite_hub)
                 # print(hub_class)
-                satellite_table.to_sql(satellite_name, connection['engine'], if_exists='append', schema=schema, index=False)
+                check = satellite_table.to_sql(satellite_name, connection['engine'], if_exists='append', schema=schema, index=False)
+                # print(check)
+                if satellite_class is not None:
+                    result = connection['engine'].execute(func.max(satellite_class.id)).fetchone()
+                    if result[0] == None:
+                        key_range['end'] = 0
+                    else:
+                        key_range['end'] = result[0]
+                key_range['link'] = 
+                print(key_range)
+                # try:
+                # connection['session'].query(func.max(satellite_class.id))
+                # result = connection['engine'].execute(query)
+                #     print(query)
+                # except:
+                #     pass
                 hub_definition.to_sql(satellite_hub, connection['engine'], if_exists='append', schema=schema, index=False)
     connection['engine'].dispose()
 
