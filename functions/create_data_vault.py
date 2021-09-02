@@ -56,6 +56,7 @@ def build_satellites(source_table_name, remaining_fields):
                 'table': satellite
             }
             satellites.append(satellite_details)
+            # print(satellite_details)
     return satellites
 
 def build_hubs_and_satellites(source_data, body):
@@ -76,6 +77,9 @@ def build_hubs_and_satellites(source_data, body):
             results[hospital][source_table_name]['satellites'] = satellites 
     return results
 
+
+def build_link():
+    """This needs to be done I think"""
             
 def setup_connection(schema):
     """Creates a connection to the database.
@@ -126,10 +130,11 @@ def fill_data_vault(data, body):
                 satellite_name = satellite['name']
                 satellite_hub = satellite['hub']
                 satellite_table = satellite['table'].reset_index(drop=True)
+                
                 satellite_class = get_table_class(schema, connection['base'], satellite_name)
-                print(satellite_class)
+                # print(satellite_class)
                 hub_class = get_table_class(schema, connection['base'], satellite_hub)
-                print(hub_class)
+                # print(hub_class)
                 satellite_table.to_sql(satellite_name, connection['engine'], if_exists='append', schema=schema, index=False)
                 hub_definition.to_sql(satellite_hub, connection['engine'], if_exists='append', schema=schema, index=False)
     connection['engine'].dispose()

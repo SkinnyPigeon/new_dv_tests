@@ -171,6 +171,26 @@ def convert_decimal_to_float(df):
                 pass
     return df
 
+def convert_floats_to_integers(df):
+    """Converts floats to Integers so they can be stored more efficiently in the data vault
+        
+            Parameters:
+
+                df (DataFrame): The Pandas DataFrame to have its floats converted
+
+            Returns:
+
+                df (DataFrame): The Pandas DataFrame with floats now held as integers
+    
+    """
+    for column in df:
+        if df.dtypes[column] in ['float64']:
+            try:
+                df[column] = df[column].astype('int64')
+            except:
+                pass
+    return df
+
 def convert_tuples_to_dict(row, fields):
     """Converts tuples to dictionaries allowing dynamically selected rows from the database to be stored as JSON
     
@@ -265,10 +285,21 @@ def select_tabular_patient_data(connection, tables, tag_definition, patient_id, 
     
     for row in result:
         data.append(convert_tuples_to_dict(row, fields))
-
+    # print("\n")
+    # for dictionary in data:
+    #     print(dictionary)
+    #     for key in dictionary:
+    #         if dictionary[key] == None:
+    #             dictionary[key] = ''
     df = pd.DataFrame([x for x in data])
-    df = convert_dates_to_string(df)
+    # print(df)
+    # df = df.replace({pd.NaT: pd.NA})
+
+    """Should only do this conversion to string if the data is being returned to the front end, otherwise it cannot be added back into the database"""
+    # df = convert_dates_to_string(df)
     df = convert_decimal_to_float(df)
+    df = convert_floats_to_integers(df)
+
     # print(df)
     columns = []
     for column in df.columns:
