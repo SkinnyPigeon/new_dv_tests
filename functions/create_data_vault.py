@@ -47,6 +47,7 @@ def get_satellite_fields(table, table_keys):
 def build_satellites(source_table_name, remaining_fields):
     satellite_definitions = fcrb_sats[source_table_name]
     satellites = []
+    links = fcrb_sats[source_table_name].pop('links')
     for satellite_name in satellite_definitions:
         columns = satellite_definitions[satellite_name]['columns']
         satellite = get_satellite_fields(remaining_fields, columns)
@@ -58,7 +59,7 @@ def build_satellites(source_table_name, remaining_fields):
             }
             satellites.append(satellite_details)
             # print(satellite_details)
-    return satellites
+    return satellites, links
 
 def build_hubs_and_satellites(source_data, body):
     """This is a single hospital's full data set"""
@@ -74,8 +75,9 @@ def build_hubs_and_satellites(source_data, body):
             remaining_fields = get_remaining_fields(table, table_keys)
             hubs = build_hubs(table, table_keys)
             results[hospital][source_table_name]['hub'] = hubs 
-            satellites = build_satellites(source_table_name, remaining_fields)
-            results[hospital][source_table_name]['satellites'] = satellites 
+            satellites, links = build_satellites(source_table_name, remaining_fields)
+            results[hospital][source_table_name]['satellites'] = satellites
+            results[hospital][source_table_name]['links'] = links 
     return results
 
 
@@ -83,16 +85,6 @@ def build_link():
     """This needs to be done I think"""
             
 def setup_connection(schema):
-    """Creates a connection to the database.
-
-            Parameters:
-                
-                schema (str): The schema for the use case partner's data within the database
-
-            Returns:
-
-                connection (dict): This contains most of the important elements of the connection allowing for many different types of operations within the database
-    """
     engine = create_engine('postgresql://postgres:{}@localhost:{}/data_vault'.format(PASSWORD, PORT))
     metadata = MetaData(schema=schema, bind=engine)
     metadata.reflect(engine)
@@ -104,18 +96,6 @@ def setup_connection(schema):
 
 
 def get_table_class(schema, base, table_name):
-    """Selects the class object for the id table
-    
-            Parameters:
-
-                schema (str): The schema within the database to search through\n
-                base (Base): The SQLAlchemy Base instance that contains the relevant metadata to enable the search
-
-            Returns:
-
-                table (obj): A SQLAlchemy Table class object
-
-    """
     for class_name in base._decl_class_registry.values():
         if hasattr(class_name, '__table__') and class_name.__table__.fullname == f"{schema}.{table_name}":
             return class_name
@@ -126,7 +106,10 @@ def fill_data_vault(data, body):
     hubs_and_satellites = build_hubs_and_satellites(data, body)
     for hospital in hubs_and_satellites:
         for table in hubs_and_satellites[hospital]:
+            
             hub_definition = hubs_and_satellites[hospital][table]['hub'].reset_index(drop=True)
+            links = hubs_and_satellites[hospital][table].pop('links')
+            print(links)
             for satellite in hubs_and_satellites[hospital][table]['satellites']:
                 satellite_name = satellite['name']
                 satellite_hub = satellite['hub']
@@ -134,30 +117,23 @@ def fill_data_vault(data, body):
                 
                 satellite_class = get_table_class(schema, connection['base'], satellite_name)
                 key_range = {}
-                if satellite_class is not None:
-                    result = connection['engine'].execute(func.max(satellite_class.id)).fetchone()
+                
+                hub_class = get_table_class(schema, connection['base'], satellite_hub)
+                satellite_table.to_sql(satellite_name, connection['engine'], if_exists='append', schema=schema, index=False)
+                if hub_class is not None:
+                    result = connection['engine'].execute(func.max(hub_class.id)).fetchone()
                     if result[0] == None:
-                        key_range['start'] = 0
+                        key_range['start'] = 1
                     else:
                         key_range['start'] = result[0]
-                hub_class = get_table_class(schema, connection['base'], satellite_hub)
-                # print(hub_class)
-                check = satellite_table.to_sql(satellite_name, connection['engine'], if_exists='append', schema=schema, index=False)
-                # print(check)
-                if satellite_class is not None:
-                    result = connection['engine'].execute(func.max(satellite_class.id)).fetchone()
+                hub_definition.to_sql(satellite_hub, connection['engine'], if_exists='append', schema=schema, index=False)
+                if hub_class is not None:
+                    result = connection['engine'].execute(func.max(hub_class.id)).fetchone()
                     if result[0] == None:
-                        key_range['end'] = 0
+                        key_range['end'] = 1
                     else:
                         key_range['end'] = result[0]
-                key_range['link'] = 
+                key_range['link'] = links
                 print(key_range)
-                # try:
-                # connection['session'].query(func.max(satellite_class.id))
-                # result = connection['engine'].execute(query)
-                #     print(query)
-                # except:
-                #     pass
-                hub_definition.to_sql(satellite_hub, connection['engine'], if_exists='append', schema=schema, index=False)
     connection['engine'].dispose()
 
