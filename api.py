@@ -6,7 +6,7 @@ body = {
   "serums_id": 364,
   "rule_id": "RULE_0df8eb8b-a469-46ae-8119-fbf98fa05b92",
   "tags": [
-    "patient_address"
+    "all"
   ],
   "hospital_ids": [
     "FCRB"

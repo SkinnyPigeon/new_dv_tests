@@ -43,7 +43,16 @@ def get_table_class(schema, base, table_name):
         if hasattr(class_name, '__table__') and class_name.__table__.fullname == f"{schema}.{table_name}":
             return class_name
 
-def fill_data_vault(data, body):
+def get_link_keys(links):
+    for link in links:
+        split_text = link.split('_')
+        link_keys = {link: {key + '_id': '' for key in split_text if key != 'link'}}
+    print(link_keys)
+    return link_keys
+
+
+
+def fill_data_vault_v1(data, body):
     schema = fcrb_data_vault()
     connection = setup_connection(schema)
     for table in data['FCRB']:
@@ -54,7 +63,52 @@ def fill_data_vault(data, body):
             satellite_table = get_table_class(schema, connection['base'], satellite_name)
             print(satellite_table)
             satellite_definition = satellite_definitions[satellite_name]
+            hub_name = satellite_definition['hub']
+            hub_table = get_table_class(schema, connection['base'], hub_name)
+            link_keys = {}
             for row in data['FCRB'][table]:
                 dv_row = {key: row[key] for key in row if key in satellite_definition['columns']}
-                stmt = (insert(satellite_table).values(**dv_row))
-                connection['engine'].execute(stmt)
+                hub_keys = {key: row[key] for key in row if key not in satellite_definition['columns']}
+                print(hub_keys)
+                sat_stmt = (insert(satellite_table).values(**dv_row))
+                sat_id = connection['engine'].execute(sat_stmt)
+                hub_stmt = (insert(hub_table).values(**hub_keys))
+                hub_id = connection['engine'].execute(hub_stmt)
+                print(hub_id.inserted_primary_key[0])
+
+def fill_data_vault(data, body):
+    schema = fcrb_data_vault()
+    connection = setup_connection(schema)
+    for table in data['FCRB']:
+        satellite_definitions = fcrb_sats[table]
+        links = satellite_definitions.pop('links')
+        for row in data['FCRB'][table]:
+            print(f"TABLE: {table}")
+            if len(links) > 0:
+                link_keys = get_link_keys(links)
+            else:
+                link_keys = None
+            for satellite_name in satellite_definitions:
+                satellite_table = get_table_class(schema, connection['base'], satellite_name)
+                satellite_definition = satellite_definitions[satellite_name]
+                hub_name = satellite_definition['hub']
+                hub_id_name = hub_name.split('_')[1] + '_id'
+                hub_table = get_table_class(schema, connection['base'], hub_name)
+                dv_row = {key: row[key] for key in row if key in satellite_definition['columns']}
+                hub_keys = {key: row[key] for key in row if key in fcrb_keys}
+                sat_stmt = (insert(satellite_table).values(**dv_row))
+                sat_id = connection['engine'].execute(sat_stmt)
+                hub_stmt = (insert(hub_table).values(**hub_keys))
+                hub_id = connection['engine'].execute(hub_stmt)
+                if link_keys != None:
+                    for link in link_keys:
+                        if hub_id_name in link_keys[link].keys():
+                            link_keys[link][hub_id_name] = hub_id.inserted_primary_key[0]
+            print(link_keys)
+            if link_keys != None:
+                for link in links:
+                    link_table = get_table_class(schema, connection['base'], link)
+                    link_stmt = (insert(link_table).values(**link_keys[link]))
+                    connection['engine'].execute(link_stmt)
+
+            
