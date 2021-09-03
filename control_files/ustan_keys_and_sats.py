@@ -35,6 +35,7 @@ ustan_sats = {
         "links": ["time_person_link", "time_location_link", "time_event_link", "person_location_link", "person_event_link", "location_event_link"]
     },
     "ustan.intentions": {
+        # WTF For whatever reason, the top on of this particular set errors. Must be something funny going on with the syntax I can't see
         "sat_time_intentions_details": {
             "columns:": ["init_appointment_date", "elapsed_days", "appointment_date"],
             "hub": "hub_time"

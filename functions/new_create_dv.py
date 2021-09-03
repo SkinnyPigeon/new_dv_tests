@@ -35,9 +35,10 @@ def get_table_class(schema, base, table_name):
             return class_name
 
 def get_link_keys(links):
+    link_keys = {}
     for link in links:
         split_text = link.split('_')
-        link_keys = {link: {key + '_id': '' for key in split_text if key != 'link'}}
+        link_keys.update({link: {key + '_id': '' for key in split_text if key != 'link'}})
     return link_keys
 
 def empty_link_keys(links):
@@ -95,25 +96,31 @@ def fill_data_vault(data, hospitals):
         connection = setup_connection(schema, hospital.lower())
 
         for table in data[hospital]:
+            print("\n")
+            print("\n")
+            print(table)
             satellite_definitions = satellites[table]
             links = satellite_definitions.pop('links')
 
             for row in data[hospital][table]:
-                link_keys = empty_link_keys(links)
+                try:
+                    link_keys = empty_link_keys(links)
 
-                for satellite_name in satellite_definitions:
-                    satellite_table = get_table_class(schema, connection['base'], satellite_name)
-                    satellite_definition = satellite_definitions[satellite_name]
+                    for satellite_name in satellite_definitions:
+                        satellite_table = get_table_class(schema, connection['base'], satellite_name)
+                        satellite_definition = satellite_definitions[satellite_name]
+                        print(satellite_name)
+                        hub_id_name, hub_table = hub_elements(satellite_definition, schema, connection)
+                        print(satellite_definition)
+                        hub_row = create_row(row, keys)
+                        dv_row = create_row(row, satellite_definition['columns'])
+                        
+                        sat_id = insert_row(satellite_table, connection, dv_row)
+                        hub_id = insert_row(hub_table, connection, hub_row)
 
-                    hub_id_name, hub_table = hub_elements(satellite_definition, schema, connection)
-
-                    hub_row = create_row(row, keys)
-                    dv_row = create_row(row, satellite_definition['columns'])
+                        link_keys = update_link_keys(link_keys, hub_id_name, hub_id)
                     
-                    sat_id = insert_row(satellite_table, connection, dv_row)
-                    hub_id = insert_row(hub_table, connection, hub_row)
-
-                    link_keys = update_link_keys(link_keys, hub_id_name, hub_id)
-                   
-                insert_links(link_keys, links, schema, connection)
+                    insert_links(link_keys, links, schema, connection)
+                except Exception as e:
+                    print(f"ERROR: {e}")
             connection['engine'].dispose()
