@@ -61,9 +61,9 @@ fcrb_sats = {
     "fcrb.patient_address": {
         "sat_location_patient_address": {
             "columns": ["pstlz", "stras", "land", "ort", "deck", "adrnr"],
-            "hub": "hub_location",
-            "links": []
-        }
+            "hub": "hub_location"
+        },
+        "links": []
     },
     "fcrb.patient": {
         "sat_person_patient_details": {

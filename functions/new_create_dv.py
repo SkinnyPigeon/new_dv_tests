@@ -20,6 +20,17 @@ if PORT == None:
     PASSWORD = os.environ.get('PGPASSWORD')
     PORT = os.environ.get('PGPORT')
 
+def setup_connection(schema):
+    engine = create_engine('postgresql://postgres:{}@localhost:{}/source'.format(PASSWORD, PORT))
+    metadata = MetaData(schema=schema, bind=engine)
+    metadata.reflect(engine)
+    Base = automap_base(metadata=metadata)
+    Base.prepare()
+    Session = sessionmaker(bind=engine)
+    session = Session()
+    return {"metadata": metadata, "base": Base, "engine": engine, "session": session, 'schema': schema}
+
+
 def loop_through_tables(data, body):
     for table in data['FCRB']:
         print(table)
@@ -27,5 +38,16 @@ def loop_through_tables(data, body):
             print(row)
             print("\n")
 
+# def get
+
 def fill_data_vault(data, body):
-    pass
+    for table in data['FCRB']:
+        satellite_definitions = fcrb_sats[table]
+        links = satellite_definitions.pop('links')
+        for satellite_name in satellite_definitions:
+            satellite_definition = satellite_definitions[satellite_name]
+            for row in data['FCRB'][table]:
+                dv_row = print([row[key] for key in row if key in satellite_definition['columns']])
+        #     print(f"COLUMNS: {columns}")
+        # print(f"LINKS: {links}")
+        # print("\n")
