@@ -1,13 +1,12 @@
 # Imports
 
-from sqlalchemy import create_engine, MetaData
+from sqlalchemy import create_engine
 from sqlalchemy.schema import CreateSchema
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker
 from sqlalchemy import Column, Integer, String, DateTime, ForeignKey, BigInteger
 
 from dotenv import load_dotenv
-from pathlib import Path
+# from pathlib import Path
 
 import os
 import subprocess
