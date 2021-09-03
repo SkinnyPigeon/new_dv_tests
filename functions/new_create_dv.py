@@ -4,7 +4,9 @@ from sqlalchemy.ext.automap import automap_base
 from sqlalchemy.orm import sessionmaker
 
 from functions.fcrb_data_vault import fcrb_data_vault
+from functions.ustan_data_vault import ustan_data_vault
 from control_files.fcrb_keys_and_sats import fcrb_keys, fcrb_sats
+from control_files.ustan_keys_and_sats import ustan_keys, ustan_sats
 
 import os
 from dotenv import load_dotenv
@@ -49,6 +51,9 @@ def hospital_picker(hospital):
     if hospital == 'FCRB':
         schema = fcrb_data_vault()
         return schema, fcrb_sats, fcrb_keys
+    elif hospital == 'USTAN':
+        schema = ustan_data_vault()
+        return schema, ustan_sats, ustan_keys
 
 def hub_elements(satellite_definition, schema, connection):
     hub_name = satellite_definition['hub']
