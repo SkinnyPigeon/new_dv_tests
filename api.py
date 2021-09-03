@@ -15,6 +15,6 @@ body = {
 }
 
 data = get_patient_data(body)
-fill_data_vault(data, body)
+fill_data_vault(data, body['hospital_ids'])
 # results = build_hubs_and_satellites(data, body)
 # print(results)
