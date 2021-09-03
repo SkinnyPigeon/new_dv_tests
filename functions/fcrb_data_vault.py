@@ -197,7 +197,7 @@ def fcrb_data_vault():
         orgna = Column(String(40))
 
     class SatTimeMedicationDetails(Base):
-        __tablename__ = 'sat_time_medical_specialty'
+        __tablename__ = 'sat_time_medication_details'
         __table_args__ = {'schema': schema}
         id = Column(Integer, primary_key=True)
         erdat = Column(DateTime(timezone=False))
