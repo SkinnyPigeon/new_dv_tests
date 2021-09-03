@@ -291,22 +291,23 @@ def select_tabular_patient_data(connection, tables, tag_definition, patient_id, 
     #     for key in dictionary:
     #         if dictionary[key] == None:
     #             dictionary[key] = ''
-    df = pd.DataFrame([x for x in data])
+    # df = pd.DataFrame([x for x in data])
     # print(df)
     # df = df.replace({pd.NaT: pd.NA})
 
     """Should only do this conversion to string if the data is being returned to the front end, otherwise it cannot be added back into the database"""
     # df = convert_dates_to_string(df)
-    df = convert_decimal_to_float(df)
-    df = convert_floats_to_integers(df)
+    # df = convert_decimal_to_float(df)
+    # df = convert_floats_to_integers(df)
 
     # print(df)
-    columns = []
-    for column in df.columns:
-        columns.append(column)
+    # columns = []
+    # for column in df.columns:
+    #     columns.append(column)
     # column_hash = schema_string(columns)
-    return df
+    # return df
     # return df.to_dict('index'), column_hash
+    return data
 
 
 def select_image_patient_data(session, tables, tag_definition, patient_id, key_name):

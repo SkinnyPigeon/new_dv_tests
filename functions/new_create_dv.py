@@ -19,3 +19,13 @@ PASSWORD = os.getenv('PGPASSWORD')
 if PORT == None:
     PASSWORD = os.environ.get('PGPASSWORD')
     PORT = os.environ.get('PGPORT')
+
+def loop_through_tables(data, body):
+    for table in data['FCRB']:
+        print(table)
+        for row in data['FCRB'][table]:
+            print(row)
+            print("\n")
+
+def fill_data_vault(data, body):
+    pass
