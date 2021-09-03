@@ -5,9 +5,6 @@ from sqlalchemy.orm import sessionmaker
 
 from functions.fcrb_data_vault import fcrb_data_vault
 from control_files.fcrb_keys_and_sats import fcrb_keys, fcrb_sats
-import pandas as pd
-pd.options.mode.chained_assignment = None
-
 
 import os
 from dotenv import load_dotenv
@@ -20,8 +17,8 @@ if PORT == None:
     PASSWORD = os.environ.get('PGPASSWORD')
     PORT = os.environ.get('PGPORT')
 
-def setup_connection(schema):
-    engine = create_engine('postgresql://postgres:{}@localhost:{}/data_vault'.format(PASSWORD, PORT))
+def setup_connection(schema, database):
+    engine = create_engine(f"postgresql://postgres:{PASSWORD}@localhost:{PORT}/{database}")
     metadata = MetaData(schema=schema, bind=engine)
     metadata.reflect(engine)
     Base = automap_base(metadata=metadata)
@@ -90,7 +87,7 @@ def insert_links(link_keys, links, schema, connection):
 def fill_data_vault(data, hospitals):
     for hospital in hospitals:
         schema, satellites, keys = hospital_picker(hospital)
-        connection = setup_connection(schema)
+        connection = setup_connection(schema, hospital.lower())
 
         for table in data[hospital]:
             satellite_definitions = satellites[table]
