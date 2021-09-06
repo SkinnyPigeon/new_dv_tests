@@ -8,15 +8,8 @@ from password_and_port import get_password_and_port
 from connection import random_schema_name, data_vault_connection
 from data_vault_boilerplate import boilerplate
 
-columns = {
-        Column("id", BigInteger, primary_key=True),
-        Column("einri", String(4)),
-        Column("patnr", BigInteger),
-        Column("falnr", String(10)),
-        Column("pernr", String(12)),
-        Column("orgid", String(8)),
-        Column("vppid", String(15))
-}
+from fcrb_keys import fcrb_keys
+
 
 database = 'test'
 def data_vault(database):
@@ -24,9 +17,9 @@ def data_vault(database):
     schema = random_schema_name()
     print(f"SCHEMA: {schema}")
     Base, engine = data_vault_connection(password, port, database)
-    # try:
     engine.execute(CreateSchema(schema))
-    boilerplate(Base, schema, engine, columns)
+    # IS THERE ANOTHER WAY INSTEAD OF FCRB_KEYS?
+    boilerplate(Base, schema, engine, fcrb_keys)
 
        
         # # Satellites
@@ -180,4 +173,4 @@ def data_vault(database):
     #     engine.dispose()
     #     return {"Error": str(e)}
 
-data_vault()
+data_vault('test')
