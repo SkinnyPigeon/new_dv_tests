@@ -1,8 +1,8 @@
-from sqlalchemy import  ForeignKey, Table, Column, Integer, BigInteger, String
+from sqlalchemy import Table
 from sqlalchemy.sql.schema import MetaData
 from link_keys import link_keys
 
-def boilerplate(Base, schema, engine, keys_function):
+def boilerplate(schema, engine, keys_function):
     metadata = MetaData()
     hub_time = Table('hub_time', metadata, schema=schema, *keys_function())
     hub_person = Table('hub_person', metadata, schema=schema, *keys_function())

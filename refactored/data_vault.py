@@ -1,8 +1,6 @@
 # Imports
 
 from sqlalchemy.schema import CreateSchema
-from sqlalchemy import Column, Integer, String, DateTime, ForeignKey, BigInteger
-from sqlalchemy import MetaData
 
 from password_and_port import get_password_and_port
 from connection import random_schema_name, data_vault_connection
@@ -16,10 +14,10 @@ def data_vault(database):
     password, port = get_password_and_port()
     schema = random_schema_name()
     print(f"SCHEMA: {schema}")
-    Base, engine = data_vault_connection(password, port, database)
+    engine = data_vault_connection(password, port, database)
     engine.execute(CreateSchema(schema))
     # IS THERE ANOTHER WAY INSTEAD OF FCRB_KEYS?
-    boilerplate(Base, schema, engine, fcrb_keys)
+    boilerplate(schema, engine, fcrb_keys)
 
        
         # # Satellites
