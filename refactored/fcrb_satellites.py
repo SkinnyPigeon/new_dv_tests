@@ -1,39 +1,41 @@
 from sqlalchemy import Table
 from sqlalchemy.sql.schema import MetaData
-from id_column import id_column
-from fcrb_satellite_definitions import fcrb_satellite_definitions
+from refactored.id_column import id_column
+from refactored.fcrb_satellite_definitions import fcrb_satellite_definitions
 
-def fcrb_satellites(schema, engine):
+def fcrb_satellites(schema, engine, tags):
     metadata = MetaData()
+    for tag in tags:
+        pass
 
-    diagnostic = fcrb_satellite_definitions['diagnostic']
-    Table('sat_event_diagnostic_details', metadata, schema=schema, *[
-                                                id_column(), 
-                                                diagnostic['lfdnr'], 
-                                                diagnostic['dkey1']])
-    Table('sat_time_diagnostic_details', metadata, schema=schema, *[
-                                                id_column(), 
-                                                diagnostic['erdat'], 
-                                                diagnostic['begdt'], 
-                                                diagnostic['enddt']])
+    # diagnostic = fcrb_satellite_definitions['diagnostic']
+    # Table('sat_event_diagnostic_details', metadata, schema=schema, *[
+    #                                             id_column(), 
+    #                                             diagnostic['lfdnr'], 
+    #                                             diagnostic['dkey1']])
+    # Table('sat_time_diagnostic_details', metadata, schema=schema, *[
+    #                                             id_column(), 
+    #                                             diagnostic['erdat'], 
+    #                                             diagnostic['begdt'], 
+    #                                             diagnostic['enddt']])
     
-    episode = fcrb_satellite_definitions['episode']
-    Table('sat_time_episode_details', metadata, schema=schema, *[
-                                                id_column(),
-                                                episode['erdat'],
-                                                episode['begdt'],
-                                                episode['enddt']])
-    Table('sat_event_episode_details', metadata, schema=schema, *[
-                                                id_column(),
-                                                episode['falar'],
-                                                episode['bekat'],
-                                                episode['einzg'],
-                                                episode['statu'],
-                                                episode['krzan'],
-                                                episode['storn'],
-                                                episode['casetx'],
-                                                episode['fatxt'],
-                                                episode['enddtx']])
+    # episode = fcrb_satellite_definitions['episode']
+    # Table('sat_time_episode_details', metadata, schema=schema, *[
+    #                                             id_column(),
+    #                                             episode['erdat'],
+    #                                             episode['begdt'],
+    #                                             episode['enddt']])
+    # Table('sat_event_episode_details', metadata, schema=schema, *[
+    #                                             id_column(),
+    #                                             episode['falar'],
+    #                                             episode['bekat'],
+    #                                             episode['einzg'],
+    #                                             episode['statu'],
+    #                                             episode['krzan'],
+    #                                             episode['storn'],
+    #                                             episode['casetx'],
+    #                                             episode['fatxt'],
+    #                                             episode['enddtx']])
 
         # class SatPersonMedicalSpecialty(Base):
         #     __tablename__ = 'sat_person_medical_specialty'

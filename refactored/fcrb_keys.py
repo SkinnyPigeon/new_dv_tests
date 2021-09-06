@@ -1,5 +1,5 @@
 from sqlalchemy import Column, BigInteger, String
-from id_column import id_column
+from refactored.id_column import id_column
 def fcrb_keys():
     return [
         id_column(),

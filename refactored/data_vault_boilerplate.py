@@ -1,6 +1,6 @@
 from sqlalchemy import Table
 from sqlalchemy.sql.schema import MetaData
-from link_keys import link_keys
+from refactored.link_keys import link_keys
 
 def boilerplate(schema, engine, keys_function):
     metadata = MetaData()
