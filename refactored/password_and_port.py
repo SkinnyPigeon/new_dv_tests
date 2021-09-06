@@ -12,5 +12,3 @@ def get_password_and_port():
         PASSWORD = os.environ.get('PGPASSWORD')
         PORT = os.environ.get('PGPORT')
     return PASSWORD, PORT
-
-PASSWORD, PORT = get_password_and_port()
