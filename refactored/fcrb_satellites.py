@@ -5,7 +5,7 @@ from fcrb_satellite_definitions import fcrb_satellite_definitions
 
 def fcrb_satellites(schema, engine):
     metadata = MetaData()
-    
+
     diagnostic = fcrb_satellite_definitions['diagnostic']
     Table('sat_event_diagnostic_details', metadata, schema=schema, *[
                                                 id_column(), 
