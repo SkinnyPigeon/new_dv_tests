@@ -1,14 +1,14 @@
 from sqlalchemy import Column, String, Integer, DateTime 
 
 fcrb_satellite_definitions = {
-    "diagnostic": {
+    "fcrb.diagnostic": {
         "lfdnr": Column("lfdnr", String(3)),
         "dkey1": Column("dkey1", String(30)),
         "erdat": Column("erdat", DateTime(timezone=False)),
         "begdt": Column("begdt", DateTime(timezone=False)),
         "enddt": Column("enddt",DateTime(timezone=False))
     },
-    "episode": {
+    "fcrb.episode": {
         "erdat": Column("erdat", DateTime(timezone=False)),
         "begdt": Column("begdt",DateTime(timezone=False)),
         "enddt": Column("enddt",DateTime(timezone=False)),
