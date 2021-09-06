@@ -184,6 +184,5 @@ zmc_sats = {
             "hub": "hub_person"
         },
         "links": []
-    },
-
+    }
 }
