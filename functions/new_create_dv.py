@@ -5,8 +5,10 @@ from sqlalchemy.orm import sessionmaker
 
 from functions.fcrb_data_vault import fcrb_data_vault
 from functions.ustan_data_vault import ustan_data_vault
+from functions.zmc_data_vault import zmc_data_vault
 from control_files.fcrb_keys_and_sats import fcrb_keys, fcrb_sats
 from control_files.ustan_keys_and_sats import ustan_keys, ustan_sats
+from control_files.zmc_keys_and_sats import zmc_keys, zmc_sats
 
 import os
 from dotenv import load_dotenv
@@ -55,6 +57,9 @@ def hospital_picker(hospital):
     elif hospital == 'USTAN':
         schema = ustan_data_vault()
         return schema, ustan_sats, ustan_keys
+    elif hospital == 'ZMC':
+        schema = zmc_data_vault()
+        return schema, zmc_sats, zmc_keys
 
 def hub_elements(satellite_definition, schema, connection):
     hub_name = satellite_definition['hub']
@@ -62,10 +67,10 @@ def hub_elements(satellite_definition, schema, connection):
     hub_table = get_table_class(schema, connection['base'], hub_name)
     return hub_id_name, hub_table
 
-def hub_and_dv_row(row, satellite_definition):
-    hub_row = {key: row[key] for key in row if key in fcrb_keys}
-    dv_row = {key: row[key] for key in row if key in satellite_definition['columns']}
-    return hub_row, dv_row
+# def hub_and_dv_row(row, satellite_definition, keys):
+#     hub_row = {key: row[key] for key in row if key in keys}
+#     dv_row = {key: row[key] for key in row if key in satellite_definition['columns']}
+#     return hub_row, dv_row
 
 def create_row(row, columns):
     row = {key: row[key] for key in row if key in columns}

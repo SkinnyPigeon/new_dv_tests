@@ -38,31 +38,31 @@ def zmc_data_vault():
         __tablename__ = 'hub_time'
         __table_args__ = {'schema': schema}
         id = Column(Integer, primary_key=True)
-        chi = Column(BigInteger)
+        patnr = Column(BigInteger)
 
     class HubPerson(Base):
         __tablename__ = 'hub_person'
         __table_args__ = {'schema': schema}
         id = Column(Integer, primary_key=True)
-        chi = Column(BigInteger)
+        patnr = Column(BigInteger)
 
     class HubObject(Base):
         __tablename__ = 'hub_object'
         __table_args__ = {'schema': schema}
         id = Column(Integer, primary_key=True)
-        chi = Column(BigInteger)
+        patnr = Column(BigInteger)
 
     class HubLocation(Base):
         __tablename__ = 'hub_location'
         __table_args__ = {'schema': schema}
         id = Column(Integer, primary_key=True)
-        chi = Column(BigInteger)
+        patnr = Column(BigInteger)
 
     class HubEvent(Base):
         __tablename__ = 'hub_event'
         __table_args__ = {'schema': schema}
         id = Column(Integer, primary_key=True)
-        chi = Column(BigInteger)
+        patnr = Column(BigInteger)
 
     class TimePersonLink(Base):
         __tablename__ = 'time_person_link'
@@ -145,7 +145,7 @@ def zmc_data_vault():
         id = Column(Integer, primary_key=True)
         date = Column(DateTime(timezone=False))
         
-    class ZMCTimeWearable(Base):
+    class ZMCEventWearable(Base):
         __tablename__ = 'sat_event_wearable_details'
         __table_args__ = {'schema': schema}
         id = Column(Integer, primary_key=True)

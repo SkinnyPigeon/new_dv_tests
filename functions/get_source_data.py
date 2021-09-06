@@ -20,7 +20,7 @@ if PORT == None:
 
 from sources.tags.fcrb import fcrb_tags
 from sources.tags.ustan import ustan_tags
-# from sources.tags.zmc import zmc_tags
+from sources.tags.zmc import zmc_tags
 # from functions.lineage import create_record, update_record, schema_string
 
 PORT = os.getenv('PGPORT')
@@ -51,8 +51,8 @@ def hospital_picker(hospital):
         return 'fcrb', fcrb_tags
     elif hospital == 'USTAN':
         return 'ustan', ustan_tags
-    # elif hospital == 'ZMC':
-    #     return 'zmc', zmc_tags
+    elif hospital == 'ZMC':
+        return 'zmc', zmc_tags
 
 
 def setup_connection(schema):
