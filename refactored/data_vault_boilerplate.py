@@ -1,7 +1,7 @@
 from sqlalchemy import  ForeignKey, Table, Column, Integer
 from sqlalchemy.sql.schema import MetaData
 
-def boilerplate(Base, schema, engine, columns):
+def boilerplate(schema, engine, columns):
     metadata = MetaData()
     hub_time = Table('hub_time', metadata, schema=schema, *columns)
     hub_person = Table('hub_person', metadata, schema=schema, *columns)
