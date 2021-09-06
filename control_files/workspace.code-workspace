@@ -1,0 +1,10 @@
+{
+	"folders": [
+		{
+			"name": "new_dv_tests",
+			"path": ".."
+		}
+	],
+	"remoteAuthority": "wsl+Ubuntu-18.04",
+	"settings": {}
+}
