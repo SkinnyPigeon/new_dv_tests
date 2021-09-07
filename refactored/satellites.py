@@ -2,16 +2,25 @@ from sqlalchemy import Table
 from sqlalchemy.sql.schema import MetaData
 from refactored.id_column import id_column
 from refactored.zmc_table_definitions import zmc_table_definitions
+from refactored.fcrb_table_definitions import fcrb_table_definitions
 from control_files.zmc_keys_and_sats import zmc_sats
+from control_files.fcrb_keys_and_sats import fcrb_sats
 
-def zmc_satellites(schema, engine, tags):
+def hospital_picker(hospital):
+    if hospital == 'FCRB':
+        return fcrb_sats, fcrb_table_definitions
+    elif hospital == 'ZMC':
+        return zmc_sats, zmc_table_definitions
+
+def satellites(hospital, schema, engine, tags):
+    sats, table_definitions = hospital_picker(hospital)
     metadata = MetaData()
     for tag in tags:
         source = tag['source']
-        satellites = zmc_sats[source]
+        satellites = sats[source]
         satellites.pop('links')
 
-        column_definitions = zmc_table_definitions[source]
+        column_definitions = table_definitions[source]
 
         for satellite in satellites:
             columns = satellites[satellite]['columns']

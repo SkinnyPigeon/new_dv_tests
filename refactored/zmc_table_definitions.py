@@ -1,6 +1,6 @@
 from sqlalchemy import Column, DateTime, Time, Integer, Numeric, String
 
-zmc_satellite_definitions = {
+zmc_table_definitions = {
     "zmc.wearable": {
         "date": Column("date", DateTime(timezone=False)),
         "w_time": Column("w_time", Time),

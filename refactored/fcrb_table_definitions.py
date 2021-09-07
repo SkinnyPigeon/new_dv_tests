@@ -1,6 +1,6 @@
 from sqlalchemy import Column, String, Integer, DateTime 
 
-fcrb_satellite_definitions = {
+fcrb_table_definitions = {
     "fcrb.diagnostic": {
         "lfdnr": Column("lfdnr", String(3)),
         "dkey1": Column("dkey1", String(30)),
