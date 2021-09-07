@@ -1,7 +1,7 @@
 from sqlalchemy import Table
 from sqlalchemy.sql.schema import MetaData
 from refactored.id_column import id_column
-from refactored.fcrb_satellite_definitions import fcrb_satellite_definitions
+from refactored.tables.fcrb_table_definitions import fcrb_table_definitions
 
 def fcrb_satellites(schema, engine, tags):
     metadata = MetaData()
