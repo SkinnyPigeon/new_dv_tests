@@ -3,7 +3,7 @@ import json
 from functions.get_source_data import get_patient_data
 # from functions.create_data_vault import build_hubs_and_satellites, fill_data_vault
 from functions.new_create_dv import fill_data_vault
-from refactored.data_vault import data_vault
+from refactored.data_vault.data_vault import data_vault
 
 body = {
   "serums_id": 364,
@@ -20,7 +20,7 @@ body = {
 data, tags = get_patient_data(body)
 json_tags = json.dumps(tags, indent=2)
 print(json_tags)
-data_vault('test', tags)
+data_vault('ZMC', 'test', tags)
 # fill_data_vault(data, body['hospital_ids'])
 # results = build_hubs_and_satellites(data, body)
 # print(results)
