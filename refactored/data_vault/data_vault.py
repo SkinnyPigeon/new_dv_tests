@@ -5,16 +5,16 @@ from refactored.connection.connection import random_schema_name, data_vault_conn
 from refactored.data_vault.data_vault_boilerplate import boilerplate
 
 from refactored.data_vault.keys.fcrb_keys import fcrb_keys
-# from refactored.data_vault.tables.fcrb_satellites import fcrb_satellites
-
+from refactored.data_vault.keys.ustan_keys import ustan_keys
 from refactored.data_vault.keys.zmc_keys import zmc_keys
-# from refactored.zmc_satellites import zmc_satellites
 
 from refactored.data_vault.satellites import satellites
 
 def pick_hospital(hospital):
     if hospital == 'FCRB':
         return fcrb_keys
+    elif hospital == 'USTAN':
+        return ustan_keys
     elif hospital == 'ZMC':
         return zmc_keys
 
