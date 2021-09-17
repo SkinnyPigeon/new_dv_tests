@@ -27,3 +27,4 @@ def data_vault(hospital, database, tags):
     keys = pick_hospital(hospital)
     boilerplate(schema, engine, keys)
     satellites(hospital, schema, engine, tags)
+    return schema

@@ -2,8 +2,11 @@ import json
 
 from functions.get_source_data import get_patient_data
 # from functions.create_data_vault import build_hubs_and_satellites, fill_data_vault
-from functions.new_create_dv import fill_data_vault
+# from functions.new_create_dv import fill_data_vault
+from refactored.data_vault.fill_data_vault import fill_data_vault
 from refactored.data_vault.data_vault import data_vault
+from example_data.ustan_data import data
+from example_data.ustan_tags import tags
 
 body = {
   "serums_id": 364,
@@ -17,10 +20,15 @@ body = {
   "public_key": "-----BEGIN PUBLIC KEY-----\nMIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCDM+DNCybR7LdizOcK1gH2P7dD\nsajGUEIoPFp7wjhgKykYkCGVQCvl55g/zdh6UI9Cd/i2IEf5wo+Ct9oihy9SnJSp\n3sOp1KESV+ElwdK3vkaIo1AUuj+E8LTe7llyJ61JJdZaozyT0PxM8jB2vIaNEdbO\nbURHcIsIDc64L0e1ZQIDAQAB\n-----END PUBLIC KEY-----"
 }
 
-data, tags = get_patient_data(body)
-json_tags = json.dumps(tags, indent=2)
-print(json_tags)
-data_vault('USTAN', 'test', tags)
+# data, tags = get_patient_data(body)
+# print(tags)
+# print(json.dumps(data, indent=2))
+# json.dumps(data, indent=2)
+# json_tags = json.dumps(tags, indent=2)
+
+# print(json_tags)
+schema = data_vault('USTAN', 'test', tags)
+fill_data_vault(data['USTAN'], 'test', schema, tags)
 # fill_data_vault(data, body['hospital_ids'])
 # results = build_hubs_and_satellites(data, body)
 # print(results)
