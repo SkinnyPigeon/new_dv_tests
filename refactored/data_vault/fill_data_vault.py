@@ -35,36 +35,39 @@ def handle_sats(sat_name, columns, row, hub_id, metadata, engine):
     sat_stmt = (insert(sat_obj).values(**row_values))
     engine.execute(sat_stmt)
 
+def handle_links(link_names, link_values, metadata, engine):
+    for link_name in link_names:
+        link_ids = {}
+        print(link_name)
+        hub_ref_one= link_name.split('_')[0] + '_id'
+        hub_ref_two = link_name.split('_')[1] + '_id' 
+        link_ids[hub_ref_one] = link_values[hub_ref_one]
+        link_ids[hub_ref_two] = link_values[hub_ref_two]
+        link_obj = Table(f"{link_name}", metadata, autoload_with=engine)
+        link_stmt = (insert(link_obj).values(**link_ids))
+        engine.execute(link_stmt)
+
 def fill_data_vault(data, hospital, database, schema, tags):
     password, port = get_password_and_port()
     engine = data_vault_connection(password, port, database)
     metadata = MetaData(bind=engine, schema=schema, reflect=True)
     keys, sats, table_definitions = hospital_picker(hospital)
-    # This will loop through the tables in the data
-    table_name = 'ustan.smr01'
-    table_data = data[table_name]
-    print(sats[table_name])
-    link_names = sats[table_name].pop('links')
-    print(link_names)
-    for row in table_data:
-        hub_keys = {key: row[key] for key in row if key in keys}
-        print(hub_keys)
-        link_values = {}
-        for sat_name in sats[table_name]:
-            print(sat_name)
-            hub_id, link_ref = handle_hubs(sats[table_name][sat_name]['hub'], hub_keys, metadata, engine)
-            link_values[link_ref] = hub_id
-            handle_sats(sat_name, sats[table_name][sat_name]['columns'], row, hub_id, metadata, engine)
-        print(link_values)
-        for link_name in link_names:
-            link_ids = {}
-            print(link_name)
-            hub_ref_one= link_name.split('_')[0] + '_id'
-            hub_ref_two = link_name.split('_')[1] + '_id' 
-            link_ids[hub_ref_one] = link_values[hub_ref_one]
-            link_ids[hub_ref_two] = link_values[hub_ref_two]
-            link_obj = Table(f"{link_name}", metadata, autoload_with=engine)
-            link_stmt = (insert(link_obj).values(**link_ids))
-            engine.execute(link_stmt)
+    for table_name in data:
+        # table_name = 'ustan.smr01'
+        table_data = data[table_name]
+        print(sats[table_name])
+        link_names = sats[table_name].pop('links')
+        print(link_names)
+        for row in table_data:
+            hub_keys = {key: row[key] for key in row if key in keys}
+            print(hub_keys)
+            link_values = {}
+            for sat_name in sats[table_name]:
+                print(sat_name)
+                hub_id, link_ref = handle_hubs(sats[table_name][sat_name]['hub'], hub_keys, metadata, engine)
+                link_values[link_ref] = hub_id
+                handle_sats(sat_name, sats[table_name][sat_name]['columns'], row, hub_id, metadata, engine)
+            print(link_values)
+            handle_links(link_names, link_values, metadata, engine)
 
             

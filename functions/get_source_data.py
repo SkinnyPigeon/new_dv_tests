@@ -378,6 +378,7 @@ def select_patient_data(connection, tags_definitions, patient_id, key_name):
 
 
 def get_patient_data(body):
+    print("SKDASJDKSJDKSKSDJKS")
     """The main function for generating the Smart Patient Health Record
     
             Parameters:
@@ -404,10 +405,12 @@ def get_patient_data(body):
             # data = select_patient_data(connection, tags, patient_id, key_name, proof_id)
             connection['engine'].dispose()
             if len(data) > 0:
-                results[hospital_id] = data
+                results[hospital_id.upper()]['data'] = data
+            results[hospital_id.upper()]['tags'] = tags
         except Exception as e:
             connection['engine'].dispose()
             if str(e) == "No row was found for one()":
-                results[hospital_id] = {"Error": "Serums ID not found with healthcare provider: {}".format(hospital_id)}
-    return results, tags
+                results[hospital_id.upper()] = {"Error": "Serums ID not found with healthcare provider: {}".format(hospital_id)}
+    print(results)
+    return results
     # return results, proof_id
