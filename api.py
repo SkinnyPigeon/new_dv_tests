@@ -27,8 +27,8 @@ body = {
 # json_tags = json.dumps(tags, indent=2)
 
 # print(json_tags)
-schema = data_vault('USTAN', 'test', tags)
-fill_data_vault(data['USTAN'], 'test', schema, tags)
+# schema = data_vault('USTAN', 'test', tags)
+fill_data_vault(data['USTAN'], 'USTAN', 'test', '_fthvsvsx', tags)
 # fill_data_vault(data, body['hospital_ids'])
 # results = build_hubs_and_satellites(data, body)
 # print(results)
