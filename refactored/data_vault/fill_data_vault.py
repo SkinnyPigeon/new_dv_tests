@@ -1,10 +1,6 @@
 import copy
 from sqlalchemy import MetaData, insert, Table
 
-from refactored.data_vault.keys.id_column import id_column
-from refactored.tables.fcrb_table_definitions import fcrb_table_definitions
-from refactored.tables.ustan_table_definitions import ustan_table_definitions
-from refactored.tables.zmc_table_definitions import zmc_table_definitions
 from control_files.fcrb_keys_and_sats import fcrb_keys, fcrb_sats
 from control_files.ustan_keys_and_sats import ustan_keys, ustan_sats
 from control_files.zmc_keys_and_sats import zmc_keys, zmc_sats
@@ -14,11 +10,11 @@ from refactored.connection.connection import data_vault_connection
 
 def hospital_picker(hospital):
     if hospital == 'FCRB':
-        return fcrb_keys, copy.deepcopy(fcrb_sats), fcrb_table_definitions
+        return fcrb_keys, copy.deepcopy(fcrb_sats)
     elif hospital == 'USTAN':
-        return ustan_keys, copy.deepcopy(ustan_sats), ustan_table_definitions
+        return ustan_keys, copy.deepcopy(ustan_sats)
     elif hospital == 'ZMC':
-        return zmc_keys, copy.deepcopy(zmc_sats), zmc_table_definitions
+        return zmc_keys, copy.deepcopy(zmc_sats)
 
 def handle_hubs(hub_name, hub_keys, metadata, engine):
     hub_obj = Table(hub_name, metadata, autoload_with=engine)
@@ -38,7 +34,6 @@ def handle_sats(sat_name, columns, row, hub_id, metadata, engine):
 def handle_links(link_names, link_values, metadata, engine):
     for link_name in link_names:
         link_ids = {}
-        print(link_name)
         hub_ref_one= link_name.split('_')[0] + '_id'
         hub_ref_two = link_name.split('_')[1] + '_id' 
         link_ids[hub_ref_one] = link_values[hub_ref_one]
@@ -47,27 +42,24 @@ def handle_links(link_names, link_values, metadata, engine):
         link_stmt = (insert(link_obj).values(**link_ids))
         engine.execute(link_stmt)
 
-def fill_data_vault(data, hospital, database, schema, tags):
+# def get_max_hub_keys()
+
+def fill_data_vault(data, hospital, database, schema):
     password, port = get_password_and_port()
     engine = data_vault_connection(password, port, database)
     metadata = MetaData(bind=engine, schema=schema, reflect=True)
-    keys, sats, table_definitions = hospital_picker(hospital)
+    keys, sats = hospital_picker(hospital)
     for table_name in data:
-        # table_name = 'ustan.smr01'
         table_data = data[table_name]
-        print(sats[table_name])
         link_names = sats[table_name].pop('links')
-        print(link_names)
         for row in table_data:
             hub_keys = {key: row[key] for key in row if key in keys}
             print(hub_keys)
             link_values = {}
             for sat_name in sats[table_name]:
-                print(sat_name)
                 hub_id, link_ref = handle_hubs(sats[table_name][sat_name]['hub'], hub_keys, metadata, engine)
                 link_values[link_ref] = hub_id
                 handle_sats(sat_name, sats[table_name][sat_name]['columns'], row, hub_id, metadata, engine)
-            print(link_values)
             handle_links(link_names, link_values, metadata, engine)
 
             

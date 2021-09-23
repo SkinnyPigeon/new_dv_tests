@@ -18,13 +18,13 @@ def pick_hospital(hospital):
     elif hospital == 'ZMC':
         return zmc_keys
 
-def data_vault(hospital, database, tags):
+def data_vault(hospital, database, tags, hub_keys):
     password, port = get_password_and_port()
     schema = random_schema_name()
     print(f"SCHEMA: {schema}")
     engine = data_vault_connection(password, port, database)
     engine.execute(CreateSchema(schema))
     keys = pick_hospital(hospital)
-    boilerplate(schema, engine, keys)
+    boilerplate(schema, engine, keys, hub_keys)
     satellites(hospital, schema, engine, tags)
     return schema
