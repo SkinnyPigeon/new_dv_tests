@@ -42,7 +42,17 @@ def handle_links(link_names, link_values, metadata, engine):
         link_stmt = (insert(link_obj).values(**link_ids))
         engine.execute(link_stmt)
 
-# def get_max_hub_keys()
+def get_max_hub_values(hospital, database, schema):
+    max_hub_values = {}
+    hubs = ['hub_time', 'hub_person', 'hub_object', 'hub_location', 'hub_event']
+    password, port = get_password_and_port()
+    engine = data_vault_connection(password, port, database)
+    metadata = MetaData(bind=engine, schema=schema, reflect=True)
+    for hub in hubs:
+        hub_obj = Table(hub, metadata, autoload_with=engine)
+        print(dir(hub_obj))
+        
+
 
 def fill_data_vault(data, hospital, database, schema):
     password, port = get_password_and_port()
@@ -61,5 +71,9 @@ def fill_data_vault(data, hospital, database, schema):
                 link_values[link_ref] = hub_id
                 handle_sats(sat_name, sats[table_name][sat_name]['columns'], row, hub_id, metadata, engine)
             handle_links(link_names, link_values, metadata, engine)
+    engine.dispose()
+
+    # max_hub_values = get_max_hub_values(hospital, database, schema)
+    # return max_hub_values
 
             

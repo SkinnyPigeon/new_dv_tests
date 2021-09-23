@@ -26,7 +26,7 @@ data = get_patient_data(body)
 # json.dumps(data, indent=2)
 # json_tags = json.dumps(tags, indent=2)
 # print(json_tags)
-hub_keys = {
+hub_values = {
   'hub_time': 10,
   'hub_person': 10,
   'hub_object': 10,
@@ -38,8 +38,9 @@ hub_keys = {
 #   fill_data_vault(data[hospital]['data'], hospital, 'test', schema, data[hospital]['tags'])
 #   print(schema)
 #   print("\n\n")
-schema = data_vault('USTAN', 'test', data['USTAN']['tags'], hub_keys)
-# fill_data_vault(data['USTAN']['data'], 'USTAN', 'test', schema)
+schema = data_vault('USTAN', 'test', data['USTAN']['tags'], hub_values)
+fill_data_vault(data['USTAN']['data'], 'USTAN', 'test', schema)
+# print(hub_values)
 # fill_data_vault(data, body['hospital_ids'])
 # results = build_hubs_and_satellites(data, body)
 # print(results)
