@@ -18,7 +18,7 @@ def zmc_satellites(schema, engine, tags):
             fields_set = set(tag['fields'])
             common_fields = list(fields_set.intersection(columns))
             sat_columns = [column_definitions[field] for field in common_fields]
-            sat_columns.insert(0, id_column())
-            print(sat_columns)
+            sat_columns.insert(0, id_column("id"))
+            # print(sat_columns)
             table = Table(satellite, metadata, schema=schema, *sat_columns)
             table.create(engine)

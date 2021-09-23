@@ -98,9 +98,9 @@ def insert_links(link_keys, links, schema, connection):
 def fill_data_vault(data, hospitals):
     for hospital in hospitals:
         schema, satellites, keys = hospital_picker(hospital)
-        print(f"SCHEMA: {schema}")
-        print(f"SATS: {satellites}")
-        print(f"KEYS: {keys}")
+        # print(f"SCHEMA: {schema}")
+        # print(f"SATS: {satellites}")
+        # print(f"KEYS: {keys}")
         # connection = setup_connection(schema, hospital.lower())
 
         # for table in data[hospital]:

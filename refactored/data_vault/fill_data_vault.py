@@ -29,8 +29,9 @@ def fill_data_vault(data, hospital, database, schema, tags):
     table_data = data[table_name]
     # stmt = (insert(table).values())
     # print(stmt)
-    
-    link_names = sats[table_name].pop('links')
+    print(sats[table_name])
+    # link_names = sats[table_name].pop('links')
+    # print(link_names)
     for row in table_data:
         hub_keys = {key: row[key] for key in row if key in keys}
         print(hub_keys)
@@ -38,22 +39,17 @@ def fill_data_vault(data, hospital, database, schema, tags):
         for sat_name in sats[table_name]:
             hub_obj = Table(sats[table_name][sat_name]['hub'], metadata, autoload_with=engine)
             hub_stmt = (insert(hub_obj).values(**hub_keys))
-            print(hub_stmt)
             link_ref = sats[table_name][sat_name]['hub'].split('_')[1] + '_id'
-            print(link_ref)
-            link_id = engine.execute(hub_stmt).inserted_primary_key[0]
-            print(f"LINK ID: {link_id}")
-            # print(link_id[0])
-            # print(type(hub_obj))
-            # db_table = metadata.tables[f"{schema}.{sat_name}"]
-            # hub_name = sats[table_name][sat_name]['hub']
-            # hub_table = metadata.tables[F"{schema}.{hub_name}"]
-            # print(hub_table)
-            # sat_obj = Table(f"{sat_name}", metadata, autoload_with=engine)
-            # column_names = sats[table_name][sat_name]['columns']
-            # row_values = {key: row[key] for key in row if key in column_names}
-            # hub_stmt = (insert(db_table).values(*hub_keys))
-            # print(hub_stmt)
+            hub_id = engine.execute(hub_stmt).inserted_primary_key[0]
+            link_values[link_ref] = hub_id
+
+            sat_obj = Table(f"{sat_name}", metadata, autoload_with=engine)
+            column_names = sats[table_name][sat_name]['columns']
+            row_values = {key: row[key] for key in row if key in column_names}
+            row_values['hub_id'] = hub_id
+            sat_stmt = (insert(sat_obj).values(**row_values))
+            engine.execute(sat_stmt)
+        print(link_values)
         # for link_name in link_names:
 
             

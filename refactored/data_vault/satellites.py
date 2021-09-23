@@ -32,7 +32,7 @@ def satellites(hospital, schema, engine, tags):
             common_fields = list(fields_set.intersection(columns))
             sat_columns = [column_definitions[field] for field in common_fields]
             sat_columns.insert(0, id_column("id"))
-            sat_columns.append(id_column("hub_id"))
-            print(sat_columns)
+            sat_columns.append(id_column("hub_id", primary=False))
+            # print(sat_columns)
             table = Table(satellite, metadata, schema=schema, *sat_columns)
             table.create(engine)
