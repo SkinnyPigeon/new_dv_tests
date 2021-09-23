@@ -1,3 +1,4 @@
+import copy
 from sqlalchemy import MetaData, insert, Table
 
 from refactored.data_vault.keys.id_column import id_column
@@ -13,11 +14,11 @@ from refactored.connection.connection import data_vault_connection
 
 def hospital_picker(hospital):
     if hospital == 'FCRB':
-        return fcrb_keys, fcrb_sats, fcrb_table_definitions
+        return fcrb_keys, copy.deepcopy(fcrb_sats), fcrb_table_definitions
     elif hospital == 'USTAN':
-        return ustan_keys, ustan_sats, ustan_table_definitions
+        return ustan_keys, copy.deepcopy(ustan_sats), ustan_table_definitions
     elif hospital == 'ZMC':
-        return zmc_keys, zmc_sats, zmc_table_definitions
+        return zmc_keys, copy.deepcopy(zmc_sats), zmc_table_definitions
 
 def fill_data_vault(data, hospital, database, schema, tags):
     password, port = get_password_and_port()
