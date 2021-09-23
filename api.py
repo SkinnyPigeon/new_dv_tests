@@ -15,7 +15,9 @@ body = {
     "all"
   ],
   "hospital_ids": [
-    "USTAN"
+    "USTAN", 
+    'FCRB', 
+    'ZMC'
   ],
   "public_key": "-----BEGIN PUBLIC KEY-----\nMIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCDM+DNCybR7LdizOcK1gH2P7dD\nsajGUEIoPFp7wjhgKykYkCGVQCvl55g/zdh6UI9Cd/i2IEf5wo+Ct9oihy9SnJSp\n3sOp1KESV+ElwdK3vkaIo1AUuj+E8LTe7llyJ61JJdZaozyT0PxM8jB2vIaNEdbO\nbURHcIsIDc64L0e1ZQIDAQAB\n-----END PUBLIC KEY-----"
 }
@@ -33,13 +35,16 @@ hub_values = {
   'hub_location': 10,
   'hub_event': 10
 }
-# for hospital in body["hospital_ids"]:
-#   schema = data_vault(hospital, 'test', data[hospital]['tags'])
-#   fill_data_vault(data[hospital]['data'], hospital, 'test', schema, data[hospital]['tags'])
-#   print(schema)
-#   print("\n\n")
-schema = data_vault('USTAN', 'test', data['USTAN']['tags'], hub_values)
-fill_data_vault(data['USTAN']['data'], 'USTAN', 'test', schema)
+for hospital in body["hospital_ids"]:
+  schema = data_vault(hospital, 'test', data[hospital]['tags'], hub_values)
+  hub_values = fill_data_vault(data[hospital]['data'], hospital, 'test', schema)
+  print(schema)
+  print("\n\n")
+
+
+# schema = data_vault('USTAN', 'test', data['USTAN']['tags'], hub_values)
+# hub_values = fill_data_vault(data['USTAN']['data'], 'USTAN', 'test', schema)
+
 # print(hub_values)
 # fill_data_vault(data, body['hospital_ids'])
 # results = build_hubs_and_satellites(data, body)

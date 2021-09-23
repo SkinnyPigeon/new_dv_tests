@@ -1,5 +1,6 @@
 import copy
 from sqlalchemy import MetaData, insert, Table
+from sqlalchemy.sql.functions import max
 
 from control_files.fcrb_keys_and_sats import fcrb_keys, fcrb_sats
 from control_files.ustan_keys_and_sats import ustan_keys, ustan_sats
@@ -50,9 +51,11 @@ def get_max_hub_values(hospital, database, schema):
     metadata = MetaData(bind=engine, schema=schema, reflect=True)
     for hub in hubs:
         hub_obj = Table(hub, metadata, autoload_with=engine)
-        print(dir(hub_obj))
-        
-
+        result = engine.execute(max(hub_obj.c.id)).fetchone()[0]
+        if result == None:
+            result = 1
+        max_hub_values[hub] = result
+    return max_hub_values
 
 def fill_data_vault(data, hospital, database, schema):
     password, port = get_password_and_port()
@@ -73,7 +76,7 @@ def fill_data_vault(data, hospital, database, schema):
             handle_links(link_names, link_values, metadata, engine)
     engine.dispose()
 
-    # max_hub_values = get_max_hub_values(hospital, database, schema)
-    # return max_hub_values
+    max_hub_values = get_max_hub_values(hospital, database, schema)
+    return max_hub_values
 
             
