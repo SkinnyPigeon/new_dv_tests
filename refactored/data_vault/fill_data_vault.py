@@ -57,6 +57,14 @@ def fill_data_vault(data, hospital, database, schema, tags):
             handle_sats(sat_name, sats[table_name][sat_name]['columns'], row, hub_id, metadata, engine)
         print(link_values)
         for link_name in link_names:
+            link_ids = {}
+            print(link_name)
+            hub_ref_one= link_name.split('_')[0] + '_id'
+            hub_ref_two = link_name.split('_')[1] + '_id' 
+            link_ids[hub_ref_one] = link_values[hub_ref_one]
+            link_ids[hub_ref_two] = link_values[hub_ref_two]
             link_obj = Table(f"{link_name}", metadata, autoload_with=engine)
+            link_stmt = (insert(link_obj).values(**link_ids))
+            engine.execute(link_stmt)
 
             
