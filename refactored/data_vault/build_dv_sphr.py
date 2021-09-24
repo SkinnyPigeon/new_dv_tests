@@ -2,6 +2,7 @@ import copy
 from functions.get_source_data import PASSWORD
 
 from sqlalchemy import Table, MetaData, select
+from sqlalchemy.exc import NoSuchTableError
 
 from refactored.connection.password_and_port import get_password_and_port
 from refactored.connection.connection import data_vault_connection
@@ -45,7 +46,10 @@ def get_satellites(hospital, schema, database):
     for table in sat_definitions:
         sat_definitions[table].pop('links')
         for sat in sat_definitions[table]:
-            sats[sat] = select_all_from_table(sat, schema, database)
+            try:
+                sats[f"{hospital.lower()}_{sat}"] = select_all_from_table(sat, schema, database)
+            except NoSuchTableError as e:
+                print(f"Table does not exist: {e}")
     return sats
 
 def build_dv_sphr(hospitals, schemas, database):
@@ -58,6 +62,17 @@ def build_dv_sphr(hospitals, schemas, database):
         dv_sphr[hospital]['links'] = links
         sats = get_satellites(hospital, schema, database)
         dv_sphr[hospital]['satellites'] = sats
-    print(dv_sphr)
+    # print(dv_sphr)
     return dv_sphr
         
+def convert_to_single_dict(dv_sphr, hospitals):
+    single_dv = {}
+    single_dv['hubs'] = {}
+    single_dv['links'] = {}
+    single_dv['satellites'] = {}
+    for hospital in hospitals:
+        single_dv['hubs'].update(dv_sphr[hospital]['hubs'])
+        single_dv['links'].update(dv_sphr[hospital]['links'])
+        single_dv['satellites'].update(dv_sphr[hospital]['satellites'])
+    print(single_dv)
+    return single_dv

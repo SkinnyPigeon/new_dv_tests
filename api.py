@@ -7,7 +7,7 @@ from refactored.data_vault.fill_data_vault import fill_data_vault
 from refactored.data_vault.data_vault import data_vault
 # from example_data.ustan_data import data
 # from example_data.ustan_tags import tags
-from refactored.data_vault.build_dv_sphr import build_dv_sphr, select_all_from_table
+from refactored.data_vault.build_dv_sphr import build_dv_sphr, convert_to_single_dict
 
 body = {
   "serums_id": 364,
@@ -16,7 +16,9 @@ body = {
     "all"
   ],
   "hospital_ids": [
-    "USTAN"
+    "USTAN",
+    "FCRB", 
+    "ZMC"
   ],
   "public_key": "-----BEGIN PUBLIC KEY-----\nMIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCDM+DNCybR7LdizOcK1gH2P7dD\nsajGUEIoPFp7wjhgKykYkCGVQCvl55g/zdh6UI9Cd/i2IEf5wo+Ct9oihy9SnJSp\n3sOp1KESV+ElwdK3vkaIo1AUuj+E8LTe7llyJ61JJdZaozyT0PxM8jB2vIaNEdbO\nbURHcIsIDc64L0e1ZQIDAQAB\n-----END PUBLIC KEY-----"
 }
@@ -44,6 +46,7 @@ for hospital in body["hospital_ids"]:
   print("\n\n")
 
 dv_sphr = build_dv_sphr(body['hospital_ids'], schemas, 'test')
+single_dv = convert_to_single_dict(dv_sphr, body['hospital_ids'])
 
 # select_all_from_table('sat_time_cycle_details', '_ldqlwzxg', 'test')
 
