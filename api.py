@@ -29,15 +29,18 @@ data = get_patient_data(body)
 # json_tags = json.dumps(tags, indent=2)
 # print(json_tags)
 hub_values = {
-  'hub_time': 10,
-  'hub_person': 10,
-  'hub_object': 10,
-  'hub_location': 10,
-  'hub_event': 10
+  'hub_time': 0,
+  'hub_person': 0,
+  'hub_object': 0,
+  'hub_location': 0,
+  'hub_event': 0
 }
+schemas = {}
 for hospital in body["hospital_ids"]:
   schema = data_vault(hospital, 'test', data[hospital]['tags'], hub_values)
+  # Change test below to be the hospital's own datalake
   hub_values = fill_data_vault(data[hospital]['data'], hospital, 'test', schema)
+  schemas[hospital] = schema
   print(schema)
   print("\n\n")
 
