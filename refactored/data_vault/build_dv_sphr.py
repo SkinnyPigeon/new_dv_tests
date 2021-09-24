@@ -1,5 +1,6 @@
 import copy
 import pandas as pd
+from tabulate import tabulate
 
 from sqlalchemy import Table, MetaData, select
 from sqlalchemy.exc import NoSuchTableError
@@ -93,6 +94,7 @@ def convert_single_hub(hub_name, hubs):
 
 def convert_hubs(hubs):
     hub_names = ['hub_time', 'hub_person', 'hub_object', 'hub_location', 'hub_event']
+    df_hubs = [convert_single_hub(hub_name, hubs) for hub_name in hub_names]
     # hubs = [[hub[hub_name] for hub in hubs] for hub_name in hub_names]
     # hub_dfs = [pd.DataFrame.from_dict(hub) for hub in hubs]
     # hub_times = [hub['hub_time'] for hub in hubs]
@@ -104,7 +106,8 @@ def convert_hubs(hubs):
     # time_results = pd.concat(time_dfs, ignore_index=True, sort=False)
     # df_time = DataFrame.from_dict(hub_times, orient='columns')
     # print(time_results)
-    print(convert_single_hub('hub_time', hubs))
+    for df in df_hubs:
+        print(tabulate(df, headers='keys', tablefmt='psql'))
         
 def convert_to_single_dict(dv_sphr, hospitals):
     hubs = []
