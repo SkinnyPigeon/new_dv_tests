@@ -26,7 +26,16 @@ def select_all_from_table(table_name, schema, database):
     stmt = (select([table_obj]))
     result = engine.execute(stmt).fetchall()
     engine.dispose()
-    return [row for row in result]
+    columns = table_obj.columns.keys()
+    # print(table_obj.columns.keys())
+    # results = []
+    # for row in result:
+    #     results.append({column: row[i] for i, column in enumerate(columns)})
+    return [{column: row[i] for i, column in enumerate(columns)} for row in result]
+        # for i, column in enumerate(columns):
+        #     results.append({column: row[i]})
+    
+    # return [row for row in result]
 
 def get_hubs_and_links(schema, database):
     hub_names = ['hub_time', 'hub_person', 'hub_object', 'hub_location', 'hub_event']
@@ -67,12 +76,12 @@ def build_dv_sphr(hospitals, schemas, database):
         
 def convert_to_single_dict(dv_sphr, hospitals):
     single_dv = {}
-    single_dv['hubs'] = {}
-    single_dv['links'] = {}
-    single_dv['satellites'] = {}
+    single_dv['hubs'] = []
+    single_dv['links'] = []
+    single_dv['satellites'] = []
     for hospital in hospitals:
-        single_dv['hubs'].update(dv_sphr[hospital]['hubs'])
-        single_dv['links'].update(dv_sphr[hospital]['links'])
-        single_dv['satellites'].update(dv_sphr[hospital]['satellites'])
+        single_dv['hubs'].append(dv_sphr[hospital]['hubs'])
+        single_dv['links'].append(dv_sphr[hospital]['links'])
+        single_dv['satellites'].append(dv_sphr[hospital]['satellites'])
     print(single_dv)
     return single_dv
