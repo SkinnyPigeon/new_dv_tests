@@ -9,6 +9,9 @@ fcrb_diagnostic_1 = {'tag': 'diagnostic', 'source': 'fcrb.diagnostic', 'fields':
     'einri', 'patnr', 'falnr', 'pernr', 'lfdnr', 'dkey1'], 'key_lookup': {}, 'table': True, 'graph': False, 'image': False}
 fcrb_diagnostic_2 = {'tag': 'diagnostic', 'source': 'fcrb.episode', 'fields': [
     'patnr', 'falnr'], 'key_lookup': {}, 'table': True, 'graph': False, 'image': False}
+fcrb_treatments = {'tag': 'treatments', 'source': 'fcrb.episode', 'fields': ['patnr', 'bekat'], 'key_lookup': {}, 'table': True, 'graph': False, 'image': False}
+
+
 zmc_diagnostic_1 = {'tag': 'diagnostic', 'source': 'zmc.complaints_and_diagnosis', 'fields': ['patnr', 'complaints_and_diagnosis', 'status', 'specialism', 'type',
                                                                                               'name_of_diagnosis_or_complaint', 'anatomical_location', 'laterality', 'begin_date', 'end_date'], 'key_lookup': {}, 'table': True, 'graph': False, 'image': False}
 zmc_diagnostic_2 = {'tag': 'diagnostic', 'source': 'zmc.bloodpressure', 'fields': ['patnr', 'value', 'position', 'description', 'date', 'systolic_bloodpressure',
@@ -26,7 +29,8 @@ zmc_diagnostic_7 = {'tag': 'diagnostic', 'source': 'zmc.patient_details', 'field
 
 ustan_tags = [ustan_diagnostic]
 fcrb_tags = [fcrb_diagnostic_1,
-            fcrb_diagnostic_2]
+            fcrb_diagnostic_2,
+            fcrb_treatments]
             
 zmc_tags =  [zmc_diagnostic_1,
             zmc_diagnostic_2,
@@ -44,13 +48,16 @@ def hospital_picker(hospital):
     elif hospital == 'ZMC':
         return copy.deepcopy(zmc_sats), zmc_tags
 
-def table_picker(tag_name, tags):
-    return [tag['source'] for tag in tags if tag['tag'] == tag_name]
+def table_picker(tag_names, tags):
+    return [tag['source'] for tag in tags if tag['tag'] in [tag_name for tag_name in tag_names]]
 
 def sat_picker(tables, sat_definitions):
     sat_names = []
     for table in tables:
-        sat_definitions[table].pop('links')
+        try:
+            sat_definitions[table].pop('links')
+        except:
+            print(f"Already popped: {table}")
         sat_names.extend([sat_name for sat_name in sat_definitions[table]])
     return sat_names
 

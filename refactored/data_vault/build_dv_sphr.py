@@ -1,5 +1,5 @@
 import copy
-from functions.get_source_data import PASSWORD
+import pandas as pd
 
 from sqlalchemy import Table, MetaData, select
 from sqlalchemy.exc import NoSuchTableError
@@ -21,6 +21,19 @@ def hospital_picker(hospital):
     elif hospital == 'ZMC':
         return copy.deepcopy(zmc_sats), zmc_tags
 
+def table_picker(tag_name, tags):
+    return [tag['source'] for tag in tags if tag['tag'] == tag_name]
+
+def sat_picker(tables, sat_definitions):
+    sat_names = []
+    for table in tables:
+        try:
+            sat_definitions[table].pop('links')
+        except:
+            print(f"Already popped: {table}")
+        sat_names.extend([sat_name for sat_name in sat_definitions[table]])
+    return sat_names
+
 def select_all_from_table(table_name, schema, database):
     password, port = get_password_and_port()
     engine = data_vault_connection(password, port, database)
@@ -30,15 +43,7 @@ def select_all_from_table(table_name, schema, database):
     result = engine.execute(stmt).fetchall()
     engine.dispose()
     columns = table_obj.columns.keys()
-    # print(table_obj.columns.keys())
-    # results = []
-    # for row in result:
-    #     results.append({column: row[i] for i, column in enumerate(columns)})
     return [{column: row[i] for i, column in enumerate(columns)} for row in result]
-        # for i, column in enumerate(columns):
-        #     results.append({column: row[i]})
-    
-    # return [row for row in result]
 
 def get_hubs_and_links(schema, database):
     hub_names = ['hub_time', 'hub_person', 'hub_object', 'hub_location', 'hub_event']
@@ -52,19 +57,21 @@ def get_hubs_and_links(schema, database):
     links = {link: select_all_from_table(link, schema, database) for link in link_names}
     return hubs, links
 
-def get_satellites(hospital, schema, database):
-    sat_definitions, tags = hospital_picker(hospital)
+def get_satellites(hospital, schema, database, request_tags):
+    sat_definitions, tag_definitions = hospital_picker(hospital)
+    table_names = table_picker(request_tags, tag_definitions)
+    sat_names = sat_picker(table_names, sat_definitions)
     sats = {}
     for table in sat_definitions:
         sat_definitions[table].pop('links')
-        for sat in sat_definitions[table]:
+        for sat in sat_names:
             try:
                 sats[f"{hospital.lower()}_{sat}"] = select_all_from_table(sat, schema, database)
             except NoSuchTableError as e:
                 print(f"Table does not exist: {e}")
     return sats
 
-def build_dv_sphr(hospitals, schemas, database):
+def build_dv_sphr(hospitals, schemas, database, request_tags):
     dv_sphr = {}
     for hospital in hospitals:
         schema = schemas[hospital]
@@ -72,17 +79,37 @@ def build_dv_sphr(hospitals, schemas, database):
         hubs, links = get_hubs_and_links(schema, database)
         dv_sphr[hospital]['hubs'] = hubs
         dv_sphr[hospital]['links'] = links
-        sats = get_satellites(hospital, schema, database)
+        sats = get_satellites(hospital, schema, database, request_tags)
         dv_sphr[hospital]['satellites'] = sats
     # print(dv_sphr)
     return dv_sphr
 
+
+def convert_single_hub(hub_name, hubs):
+    hub = [hub[hub_name] for hub in hubs]
+    hub_dfs = [pd.DataFrame.from_dict(hub_table) for hub_table in hub]
+    hub_result = pd.concat(hub_dfs, ignore_index=True, sort=False)
+    return hub_result
+
 def convert_hubs(hubs):
-    print(hubs)
+    hub_names = ['hub_time', 'hub_person', 'hub_object', 'hub_location', 'hub_event']
+    # hubs = [[hub[hub_name] for hub in hubs] for hub_name in hub_names]
+    # hub_dfs = [pd.DataFrame.from_dict(hub) for hub in hubs]
+    # hub_times = [hub['hub_time'] for hub in hubs]
+    # hub_persons = [hub['hub_person'] for hub in hubs]
+    # hub_objects = [hub['hub_object'] for hub in hubs]
+    # hub_locations = [hub['hub_location'] for hub in hubs]
+    # hub_events = [hub['hub_event'] for hub in hubs]
+    # time_dfs = [pd.DataFrame.from_dict(hub_time) for hub_time in hub_times]
+    # time_results = pd.concat(time_dfs, ignore_index=True, sort=False)
+    # df_time = DataFrame.from_dict(hub_times, orient='columns')
+    # print(time_results)
+    print(convert_single_hub('hub_time', hubs))
         
 def convert_to_single_dict(dv_sphr, hospitals):
-    hubs = [[].append(dv_sphr[hospital]['hubs'] for hospital in hospitals)]
-    print(hubs)
+    hubs = []
+    hubs.extend([dv_sphr[hospital]['hubs'] for hospital in hospitals])
+    convert_hubs(hubs)
     # hubs = convert_hubs(dv_sphr[])
     # single_dv = {}
     # single_dv['hubs'] = []

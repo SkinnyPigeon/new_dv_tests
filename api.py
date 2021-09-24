@@ -36,16 +36,30 @@ hub_values = {
   'hub_location': 1,
   'hub_event': 1
 }
-schemas = {}
-for hospital in body["hospital_ids"]:
-  schema = data_vault(hospital, 'test', data[hospital]['tags'], hub_values)
-  # Change test below to be the hospital's own datalake
-  hub_values = fill_data_vault(data[hospital]['data'], hospital, 'test', schema)
-  schemas[hospital] = schema
-  print(schema)
-  print("\n\n")
+# schemas = {}
+# for hospital in body["hospital_ids"]:
+#   schema = data_vault(hospital, 'test', data[hospital]['tags'], hub_values)
+#   # Change test below to be the hospital's own datalake
+#   hub_values = fill_data_vault(data[hospital]['data'], hospital, 'test', schema)
+#   schemas[hospital] = schema
+#   print(schema)
+#   print("\n\n")
 
-dv_sphr = build_dv_sphr(body['hospital_ids'], schemas, 'test')
+
+schemas = {
+  'USTAN': '_zllupmqh',
+  'FCRB': '_httmmvon',
+  'ZMC': '_makbedon'
+}
+
+
+test_dv = {'USTAN': {'hubs': {'hub_time': [{'id': 1, 'chi': 1005549224}], 'hub_person': [{'id': 1, 'chi': 1005549224}, {'id': 2, 'chi': 1005549224}], 'hub_object': [], 'hub_location': [{'id': 1, 'chi': 1005549224}], 'hub_event': [{'id': 1, 'chi': 1005549224}]}, 'links': {'time_person_link': [{'id': 1, 'time_id': 1, 'person_id': 2}], 'time_object_link': [], 'time_location_link': [{'id': 1, 'time_id': 1, 'location_id': 1}], 'time_event_link': [{'id': 1, 'time_id': 1, 'event_id': 1}], 'person_object_link': [], 'person_location_link': [{'id': 1, 'person_id': 2, 'location_id': 1}], 'person_event_link': [{'id': 1, 'person_id': 2, 'event_id': 1}], 'object_location_link': [], 'object_event_link': [], 'location_event_link': [{'id': 1, 'location_id': 1, 'event_id': 1}]}, 'satellites': {}}, 'FCRB': {'hubs': {'hub_time': [{'id': 1, 'einri': None, 'patnr': 4641202, 'falnr': '988392719', 'pernr': None, 'orgid': None, 'vppid': None}, {'id': 2, 'einri': None, 'patnr': 4641202, 'falnr': '89439002', 'pernr': None, 'orgid': None, 'vppid': None}, {'id': 3, 'einri': None, 'patnr': 4641202, 'falnr': '96823483', 'pernr': None, 'orgid': None, 'vppid': None}], 'hub_person': [], 'hub_object': [], 'hub_location': [], 'hub_event': [{'id': 1, 'einri': 'HCPB', 'patnr': 4641202, 'falnr': '988392719', 'pernr': '2827346', 'orgid': None, 'vppid': None}, {'id': 2, 'einri': 'HCPB', 'patnr': 4641202, 'falnr': '98823483', 'pernr': '8405937', 'orgid': None, 'vppid': None}, {'id': 3, 'einri': None, 'patnr': 4641202, 'falnr': '988392719', 'pernr': None, 'orgid': None, 'vppid': None}, {'id': 4, 'einri': None, 'patnr': 4641202, 'falnr': '89439002', 'pernr': None, 'orgid': None, 'vppid': None}, {'id': 5, 'einri': None, 'patnr': 4641202, 'falnr': '96823483', 'pernr': None, 'orgid': None, 'vppid': None}]}, 'links': {'time_person_link': [], 'time_object_link': [], 'time_location_link': [], 'time_event_link': [{'id': 1, 'time_id': 1, 'event_id': 3}, {'id': 2, 'time_id': 2, 'event_id': 4}, {'id': 3, 'time_id': 3, 'event_id': 5}], 'person_object_link': [], 'person_location_link': [], 'person_event_link': [], 'object_location_link': [], 'object_event_link': [], 'location_event_link': []}, 'satellites': {}}, 'ZMC': {'hubs': {'hub_time': [{'id': 3, 'patnr': 1075835}, {'id': 4, 'patnr': 1075835}, {'id': 5, 'patnr': 1075835}, {'id': 6, 'patnr': 1075835}, {'id': 7, 'patnr': 1075835}, {'id': 8, 'patnr': 1075835}, {'id': 9, 'patnr': 1075835}, {'id': 10, 'patnr': 1075835}], 'hub_person': [{'id': 1, 'patnr': 1075835}], 'hub_object': [], 'hub_location': [{'id': 1, 'patnr': 1075835}, {'id': 2, 'patnr': 1075835}, {'id': 3, 'patnr': 1075835}, {'id': 4, 'patnr': 1075835}], 'hub_event': 
+[{'id': 5, 'patnr': 1075835}, {'id': 6, 'patnr': 1075835}, {'id': 7, 'patnr': 1075835}, {'id': 8, 'patnr': 1075835}, {'id': 9, 'patnr': 1075835}, {'id': 10, 'patnr': 1075835}, {'id': 11, 'patnr': 1075835}, {'id': 12, 'patnr': 1075835}]}, 'links': {'time_person_link': [], 'time_object_link': [], 'time_location_link': [{'id': 1, 'time_id': 4, 'location_id': 1}, {'id': 2, 'time_id': 7, 'location_id': 2}, {'id': 3, 'time_id': 8, 'location_id': 3}, {'id': 4, 'time_id': 9, 'location_id': 4}], 'time_event_link': [{'id': 1, 'time_id': 3, 'event_id': 5}, {'id': 2, 'time_id': 4, 'event_id': 6}, {'id': 3, 'time_id': 5, 'event_id': 7}, {'id': 4, 'time_id': 6, 'event_id': 8}, {'id': 5, 'time_id': 7, 'event_id': 9}, {'id': 6, 'time_id': 8, 'event_id': 10}, {'id': 
+7, 'time_id': 9, 'event_id': 11}, {'id': 8, 'time_id': 10, 'event_id': 12}], 'person_object_link': [], 'person_location_link': [], 'person_event_link': [], 'object_location_link': [], 'object_event_link': [], 'location_event_link': [{'id': 1, 'location_id': 1, 'event_id': 6}, {'id': 2, 'location_id': 2, 'event_id': 9}, {'id': 3, 'location_id': 3, 'event_id': 10}, {'id': 4, 'location_id': 4, 'event_id': 11}]}, 'satellites': {}}}
+
+
+
+dv_sphr = build_dv_sphr(body['hospital_ids'], schemas, 'test', body['tags'])
 # print(dv_sphr)
 single_dv = convert_to_single_dict(dv_sphr, body['hospital_ids'])
 
