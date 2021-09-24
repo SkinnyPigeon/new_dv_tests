@@ -24,6 +24,7 @@ def select_all_from_table(table_name, schema, database):
     table_obj = Table(table_name, metadata, autoload_with=engine)
     stmt = (select([table_obj]))
     result = engine.execute(stmt).fetchall()
+    engine.dispose()
     return [row for row in result]
 
 def get_hubs_and_links(schema, database):
@@ -38,11 +39,25 @@ def get_hubs_and_links(schema, database):
     links = {link: select_all_from_table(link, schema, database) for link in link_names}
     return hubs, links
 
+def get_satellites(hospital, schema, database):
+    sat_definitions = hospital_picker(hospital)[1]
+    sats = {}
+    for table in sat_definitions:
+        sat_definitions[table].pop('links')
+        for sat in sat_definitions[table]:
+            sats[sat] = select_all_from_table(sat, schema, database)
+    return sats
 
 def build_dv_sphr(hospitals, schemas, database):
     dv_sphr = {}
     for hospital in hospitals:
         schema = schemas[hospital]
-        sat_definitions = hospital_picker(hospital)[1]
-        for table in sat_definitions:
-            pass
+        dv_sphr[hospital] = {}
+        hubs, links = get_hubs_and_links(schema, database)
+        dv_sphr[hospital]['hubs'] = hubs
+        dv_sphr[hospital]['links'] = links
+        sats = get_satellites(hospital, schema, database)
+        dv_sphr[hospital]['satellites'] = sats
+    print(dv_sphr)
+    return dv_sphr
+        

@@ -43,7 +43,7 @@ for hospital in body["hospital_ids"]:
   print(schema)
   print("\n\n")
 
-dv_sphr = build_dv_sphr(body['hospital_ids'], schemas)
+dv_sphr = build_dv_sphr(body['hospital_ids'], schemas, 'test')
 
 # select_all_from_table('sat_time_cycle_details', '_ldqlwzxg', 'test')
 
