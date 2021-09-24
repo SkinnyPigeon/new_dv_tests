@@ -7,6 +7,7 @@ from refactored.data_vault.fill_data_vault import fill_data_vault
 from refactored.data_vault.data_vault import data_vault
 # from example_data.ustan_data import data
 # from example_data.ustan_tags import tags
+from refactored.data_vault.build_dv_sphr import build_dv_sphr, select_all_from_table
 
 body = {
   "serums_id": 364,
@@ -15,9 +16,7 @@ body = {
     "all"
   ],
   "hospital_ids": [
-    "USTAN", 
-    'FCRB', 
-    'ZMC'
+    "USTAN"
   ],
   "public_key": "-----BEGIN PUBLIC KEY-----\nMIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCDM+DNCybR7LdizOcK1gH2P7dD\nsajGUEIoPFp7wjhgKykYkCGVQCvl55g/zdh6UI9Cd/i2IEf5wo+Ct9oihy9SnJSp\n3sOp1KESV+ElwdK3vkaIo1AUuj+E8LTe7llyJ61JJdZaozyT0PxM8jB2vIaNEdbO\nbURHcIsIDc64L0e1ZQIDAQAB\n-----END PUBLIC KEY-----"
 }
@@ -29,11 +28,11 @@ data = get_patient_data(body)
 # json_tags = json.dumps(tags, indent=2)
 # print(json_tags)
 hub_values = {
-  'hub_time': 0,
-  'hub_person': 0,
-  'hub_object': 0,
-  'hub_location': 0,
-  'hub_event': 0
+  'hub_time': 1,
+  'hub_person': 1,
+  'hub_object': 1,
+  'hub_location': 1,
+  'hub_event': 1
 }
 schemas = {}
 for hospital in body["hospital_ids"]:
@@ -43,6 +42,10 @@ for hospital in body["hospital_ids"]:
   schemas[hospital] = schema
   print(schema)
   print("\n\n")
+
+dv_sphr = build_dv_sphr(body['hospital_ids'], schemas)
+
+# select_all_from_table('sat_time_cycle_details', '_ldqlwzxg', 'test')
 
 
 # schema = data_vault('USTAN', 'test', data['USTAN']['tags'], hub_values)
