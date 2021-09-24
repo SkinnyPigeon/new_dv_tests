@@ -9,14 +9,17 @@ from refactored.connection.connection import data_vault_connection
 from control_files.fcrb_keys_and_sats import fcrb_keys, fcrb_sats
 from control_files.ustan_keys_and_sats import ustan_keys, ustan_sats
 from control_files.zmc_keys_and_sats import zmc_keys, zmc_sats
+from sources.tags.fcrb import fcrb_tags
+from sources.tags.ustan import ustan_tags
+from sources.tags.zmc import zmc_tags
 
 def hospital_picker(hospital):
     if hospital == 'FCRB':
-        return fcrb_keys, copy.deepcopy(fcrb_sats)
+        return copy.deepcopy(fcrb_sats), fcrb_tags
     elif hospital == 'USTAN':
-        return ustan_keys, copy.deepcopy(ustan_sats)
+        return copy.deepcopy(ustan_sats), ustan_tags
     elif hospital == 'ZMC':
-        return zmc_keys, copy.deepcopy(zmc_sats)
+        return copy.deepcopy(zmc_sats), zmc_tags
 
 def select_all_from_table(table_name, schema, database):
     password, port = get_password_and_port()
@@ -50,7 +53,7 @@ def get_hubs_and_links(schema, database):
     return hubs, links
 
 def get_satellites(hospital, schema, database):
-    sat_definitions = hospital_picker(hospital)[1]
+    sat_definitions, tags = hospital_picker(hospital)
     sats = {}
     for table in sat_definitions:
         sat_definitions[table].pop('links')
@@ -73,15 +76,21 @@ def build_dv_sphr(hospitals, schemas, database):
         dv_sphr[hospital]['satellites'] = sats
     # print(dv_sphr)
     return dv_sphr
+
+def convert_hubs(hubs):
+    print(hubs)
         
 def convert_to_single_dict(dv_sphr, hospitals):
-    single_dv = {}
-    single_dv['hubs'] = []
-    single_dv['links'] = []
-    single_dv['satellites'] = []
-    for hospital in hospitals:
-        single_dv['hubs'].append(dv_sphr[hospital]['hubs'])
-        single_dv['links'].append(dv_sphr[hospital]['links'])
-        single_dv['satellites'].append(dv_sphr[hospital]['satellites'])
-    print(single_dv)
-    return single_dv
+    hubs = [[].append(dv_sphr[hospital]['hubs'] for hospital in hospitals)]
+    print(hubs)
+    # hubs = convert_hubs(dv_sphr[])
+    # single_dv = {}
+    # single_dv['hubs'] = []
+    # single_dv['links'] = []
+    # single_dv['satellites'] = []
+    # for hospital in hospitals:
+    #     single_dv['hubs'].append(dv_sphr[hospital]['hubs'])
+    #     single_dv['links'].append(dv_sphr[hospital]['links'])
+    #     single_dv['satellites'].append(dv_sphr[hospital]['satellites'])
+    # print(single_dv)
+    # return single_dv

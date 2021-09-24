@@ -1,0 +1,754 @@
+{
+    "hubs": [
+        {
+            "hub_time": [
+                {
+                    "id": 1,
+                    "chi": 1005549224
+                }
+            ],
+            "hub_person": [
+                {
+                    "id": 1,
+                    "chi": 1005549224
+                },
+                {
+                    "id": 2,
+                    "chi": 1005549224
+                }
+            ],
+            "hub_object": [],
+            "hub_location": [
+                {
+                    "id": 1,
+                    "chi": 1005549224
+                }
+            ],
+            "hub_event": [
+                {
+                    "id": 1,
+                    "chi": 1005549224
+                }
+            ]
+        },
+        {
+            "hub_time": [
+                {
+                    "id": 1,
+                    "einri": null,
+                    "patnr": 4641202,
+                    "falnr": "988392719",
+                    "pernr": null,
+                    "orgid": null,
+                    "vppid": null
+                },
+                {
+                    "id": 2,
+                    "einri": null,
+                    "patnr": 4641202,
+                    "falnr": "89439002",
+                    "pernr": null,
+                    "orgid": null,
+                    "vppid": null
+                },
+                {
+                    "id": 3,
+                    "einri": null,
+                    "patnr": 4641202,
+                    "falnr": "96823483",
+                    "pernr": null,
+                    "orgid": null,
+                    "vppid": null
+                }
+            ],
+            "hub_person": [],
+            "hub_object": [],
+            "hub_location": [],
+            "hub_event": [
+                {
+                    "id": 1,
+                    "einri": "HCPB",
+                    "patnr": 4641202,
+                    "falnr": "988392719",
+                    "pernr": "2827346",
+                    "orgid": null,
+                    "vppid": null
+                },
+                {
+                    "id": 2,
+                    "einri": "HCPB",
+                    "patnr": 4641202,
+                    "falnr": "98823483",
+                    "pernr": "8405937",
+                    "orgid": null,
+                    "vppid": null
+                },
+                {
+                    "id": 3,
+                    "einri": null,
+                    "patnr": 4641202,
+                    "falnr": "988392719",
+                    "pernr": null,
+                    "orgid": null,
+                    "vppid": null
+                },
+                {
+                    "id": 4,
+                    "einri": null,
+                    "patnr": 4641202,
+                    "falnr": "89439002",
+                    "pernr": null,
+                    "orgid": null,
+                    "vppid": null
+                },
+                {
+                    "id": 5,
+                    "einri": null,
+                    "patnr": 4641202,
+                    "falnr": "96823483",
+                    "pernr": null,
+                    "orgid": null,
+                    "vppid": null
+                }
+            ]
+        },
+        {
+            "hub_time": [
+                {
+                    "id": 3,
+                    "patnr": 1075835
+                },
+                {
+                    "id": 4,
+                    "patnr": 1075835
+                },
+                {
+                    "id": 5,
+                    "patnr": 1075835
+                },
+                {
+                    "id": 6,
+                    "patnr": 1075835
+                },
+                {
+                    "id": 7,
+                    "patnr": 1075835
+                },
+                {
+                    "id": 8,
+                    "patnr": 1075835
+                },
+                {
+                    "id": 9,
+                    "patnr": 1075835
+                },
+                {
+                    "id": 10,
+                    "patnr": 1075835
+                }
+            ],
+            "hub_person": [
+                {
+                    "id": 1,
+                    "patnr": 1075835
+                }
+            ],
+            "hub_object": [],
+            "hub_location": [
+                {
+                    "id": 1,
+                    "patnr": 1075835
+                },
+                {
+                    "id": 2,
+                    "patnr": 1075835
+                },
+                {
+                    "id": 3,
+                    "patnr": 1075835
+                },
+                {
+                    "id": 4,
+                    "patnr": 1075835
+                }
+            ],
+            "hub_event": [
+                {
+                    "id": 5,
+                    "patnr": 1075835
+                },
+                {
+                    "id": 6,
+                    "patnr": 1075835
+                },
+                {
+                    "id": 7,
+                    "patnr": 1075835
+                },
+                {
+                    "id": 8,
+                    "patnr": 1075835
+                },
+                {
+                    "id": 9,
+                    "patnr": 1075835
+                },
+                {
+                    "id": 10,
+                    "patnr": 1075835
+                },
+                {
+                    "id": 11,
+                    "patnr": 1075835
+                },
+                {
+                    "id": 12,
+                    "patnr": 1075835
+                }
+            ]
+        }
+    ],
+    "links": [
+        {
+            "time_person_link": [
+                {
+                    "id": 1,
+                    "time_id": 1,
+                    "person_id": 2
+                }
+            ],
+            "time_object_link": [],
+            "time_location_link": [
+                {
+                    "id": 1,
+                    "time_id": 1,
+                    "location_id": 1
+                }
+            ],
+            "time_event_link": [
+                {
+                    "id": 1,
+                    "time_id": 1,
+                    "event_id": 1
+                }
+            ],
+            "person_object_link": [],
+            "person_location_link": [
+                {
+                    "id": 1,
+                    "person_id": 2,
+                    "location_id": 1
+                }
+            ],
+            "person_event_link": [
+                {
+                    "id": 1,
+                    "person_id": 2,
+                    "event_id": 1
+                }
+            ],
+            "object_location_link": [],
+            "object_event_link": [],
+            "location_event_link": [
+                {
+                    "id": 1,
+                    "location_id": 1,
+                    "event_id": 1
+                }
+            ]
+        },
+        {
+            "time_person_link": [],
+            "time_object_link": [],
+            "time_location_link": [],
+            "time_event_link": [
+                {
+                    "id": 1,
+                    "time_id": 1,
+                    "event_id": 3
+                },
+                {
+                    "id": 2,
+                    "time_id": 2,
+                    "event_id": 4
+                },
+                {
+                    "id": 3,
+                    "time_id": 3,
+                    "event_id": 5
+                }
+            ],
+            "person_object_link": [],
+            "person_location_link": [],
+            "person_event_link": [],
+            "object_location_link": [],
+            "object_event_link": [],
+            "location_event_link": []
+        },
+        {
+            "time_person_link": [],
+            "time_object_link": [],
+            "time_location_link": [
+                {
+                    "id": 1,
+                    "time_id": 4,
+                    "location_id": 1
+                },
+                {
+                    "id": 2,
+                    "time_id": 7,
+                    "location_id": 2
+                },
+                {
+                    "id": 3,
+                    "time_id": 8,
+                    "location_id": 3
+                },
+                {
+                    "id": 4,
+                    "time_id": 9,
+                    "location_id": 4
+                }
+            ],
+            "time_event_link": [
+                {
+                    "id": 1,
+                    "time_id": 3,
+                    "event_id": 5
+                },
+                {
+                    "id": 2,
+                    "time_id": 4,
+                    "event_id": 6
+                },
+                {
+                    "id": 3,
+                    "time_id": 5,
+                    "event_id": 7
+                },
+                {
+                    "id": 4,
+                    "time_id": 6,
+                    "event_id": 8
+                },
+                {
+                    "id": 5,
+                    "time_id": 7,
+                    "event_id": 9
+                },
+                {
+                    "id": 6,
+                    "time_id": 8,
+                    "event_id": 10
+                },
+                {
+                    "id": 7,
+                    "time_id": 9,
+                    "event_id": 11
+                },
+                {
+                    "id": 8,
+                    "time_id": 10,
+                    "event_id": 12
+                }
+            ],
+            "person_object_link": [],
+            "person_location_link": [],
+            "person_event_link": [],
+            "object_location_link": [],
+            "object_event_link": [],
+            "location_event_link": [
+                {
+                    "id": 1,
+                    "location_id": 1,
+                    "event_id": 6
+                },
+                {
+                    "id": 2,
+                    "location_id": 2,
+                    "event_id": 9
+                },
+                {
+                    "id": 3,
+                    "location_id": 3,
+                    "event_id": 10
+                },
+                {
+                    "id": 4,
+                    "location_id": 4,
+                    "event_id": 11
+                }
+            ]
+        }
+    ],
+    "satellites": [
+        {
+            "ustan_sat_time_general_details": [
+                {
+                    "id": 1,
+                    "incidence_date": [
+                        2017,
+                        4,
+                        18,
+                        0,
+                        0
+                    ],
+                    "first_seen_date": [
+                        2017,
+                        4,
+                        18,
+                        0,
+                        0
+                    ],
+                    "survival_days": null,
+                    "hub_id": 1
+                }
+            ],
+            "ustan_sat_person_general_patient": [
+                {
+                    "id": 1,
+                    "age_at_diagnosis": 5.20,
+                    "weight": 68.60,
+                    "gender": 2,
+                    "height": 1.64,
+                    "age": 63,
+                    "name": "HERMIONE KOCZUR",
+                    "bmi": 25.50,
+                    "hub_id": 1
+                }
+            ],
+            "ustan_sat_person_general_gp": [
+                {
+                    "id": 1,
+                    "gp_name": "KIVIOJA                       ",
+                    "gp_id": 18,
+                    "hub_id": 2
+                }
+            ],
+            "ustan_sat_location_general_details": [
+                {
+                    "id": 1,
+                    "ref_hospital": 617,
+                    "hub_id": 1
+                }
+            ],
+            "ustan_sat_event_general_details": [
+                {
+                    "id": 1,
+                    "dementia_flag": 0,
+                    "para_hemiplegia_flag": 0,
+                    "tnm_n_detail": "0",
+                    "cancer_flag": 6,
+                    "side": 2,
+                    "smr01_flag": 0,
+                    "metastasis3": null,
+                    "tnm_n": 0,
+                    "histology": 8508,
+                    "tnm_t_detail": "1",
+                    "stage": 2,
+                    "diabetes_flag": 0,
+                    "metastasis1": "C00.0",
+                    "perf_stat": null,
+                    "con_tiss_disease_rheum_flag": 0,
+                    "metastasis2": null,
+                    "liver_flag": 0,
+                    "pulmonary_flag": 0,
+                    "stage_detail": "2A",
+                    "tnm_t": 1,
+                    "aids_hiv_flag": 0,
+                    "primary": 1,
+                    "renal_flag": 0,
+                    "site": "C50.9",
+                    "charlson_score": 6,
+                    "tnm_m": 0,
+                    "cong_heart_fail_flag": 0,
+                    "con_tiss_flag": 0,
+                    "site_icd_10": "C50.9",
+                    "hub_id": 1
+                }
+            ]
+        },
+        {
+            "fcrb_sat_event_diagnostic_details": [
+                {
+                    "id": 1,
+                    "dkey1": "E11.9",
+                    "lfdnr": "3",
+                    "hub_id": 1
+                },
+                {
+                    "id": 2,
+                    "dkey1": "I25.9",
+                    "lfdnr": "2",
+                    "hub_id": 2
+                }
+            ],
+            "fcrb_sat_time_episode_details": [
+                {
+                    "id": 1,
+                    "hub_id": 1
+                },
+                {
+                    "id": 2,
+                    "hub_id": 2
+                },
+                {
+                    "id": 3,
+                    "hub_id": 3
+                }
+            ],
+            "fcrb_sat_event_episode_details": [
+                {
+                    "id": 1,
+                    "hub_id": 3
+                },
+                {
+                    "id": 2,
+                    "hub_id": 4
+                },
+                {
+                    "id": 3,
+                    "hub_id": 5
+                }
+            ]
+        },
+        {
+            "zmc_sat_time_complaints_and_diagnosis": [
+                {
+                    "id": 1,
+                    "end_date": [
+                        2020,
+                        11,
+                        27,
+                        0,
+                        0
+                    ],
+                    "begin_date": [
+                        2020,
+                        9,
+                        1,
+                        0,
+                        0
+                    ],
+                    "hub_id": 3
+                }
+            ],
+            "zmc_sat_event_complaints_and_diagnosis": [
+                {
+                    "id": 1,
+                    "laterality": "no",
+                    "name_of_diagnosis_or_complaint": "coxartrose",
+                    "complaints_and_diagnosis": "Debilitating pain",
+                    "anatomical_location": "right hip",
+                    "specialism": "Orthopedics",
+                    "type": "diagnosis",
+                    "status": "Current",
+                    "hub_id": 5
+                }
+            ],
+            "zmc_sat_time_bloodpressure_details": [
+                {
+                    "id": 1,
+                    "date": [
+                        2018,
+                        9,
+                        20,
+                        0,
+                        0
+                    ],
+                    "hub_id": 4
+                }
+            ],
+            "zmc_sat_location_bloodpressure_details": [
+                {
+                    "id": 1,
+                    "position": "seated",
+                    "hub_id": 1
+                }
+            ],
+            "zmc_sat_event_bloodpressure_details": [
+                {
+                    "id": 1,
+                    "measurement_method": "Non-invasive",
+                    "diastolic_bloodpressure": 80,
+                    "description": null,
+                    "measurement_location": "Right upperarm",
+                    "systolic_bloodpressure": 120,
+                    "manchette_type": null,
+                    "value": "120/80 mmHg",
+                    "hub_id": 6
+                }
+            ],
+            "zmc_sat_time_weight_details": [
+                {
+                    "id": 1,
+                    "date": [
+                        2018,
+                        9,
+                        20,
+                        0,
+                        0
+                    ],
+                    "hub_id": 5
+                }
+            ],
+            "zmc_sat_event_weight_details": [
+                {
+                    "id": 1,
+                    "measurement": "90kg",
+                    "clothes": null,
+                    "description": null,
+                    "hub_id": 7
+                }
+            ],
+            "zmc_sat_time_length_details": [
+                {
+                    "id": 1,
+                    "date": [
+                        2018,
+                        9,
+                        20,
+                        0,
+                        0
+                    ],
+                    "hub_id": 6
+                }
+            ],
+            "zmc_sat_event_length_details": [
+                {
+                    "id": 1,
+                    "measurement": "195cm",
+                    "description": null,
+                    "hub_id": 8
+                }
+            ],
+            "zmc_sat_time_registered_events": [
+                {
+                    "id": 1,
+                    "end_date": null,
+                    "date": [
+                        2020,
+                        9,
+                        1,
+                        0,
+                        0
+                    ],
+                    "start_date": null,
+                    "hub_id": 7
+                },
+                {
+                    "id": 2,
+                    "end_date": null,
+                    "date": [
+                        2020,
+                        9,
+                        20,
+                        0,
+                        0
+                    ],
+                    "start_date": null,
+                    "hub_id": 8
+                },
+                {
+                    "id": 3,
+                    "end_date": null,
+                    "date": [
+                        2020,
+                        10,
+                        26,
+                        0,
+                        0
+                    ],
+                    "start_date": null,
+                    "hub_id": 9
+                }
+            ],
+            "zmc_sat_location_registered_events": [
+                {
+                    "id": 1,
+                    "hub_id": 2
+                },
+                {
+                    "id": 2,
+                    "hub_id": 3
+                },
+                {
+                    "id": 3,
+                    "hub_id": 4
+                }
+            ],
+            "zmc_sat_event_registered_events": [
+                {
+                    "id": 1,
+                    "laterality": null,
+                    "indication": null,
+                    "anatomical_location": null,
+                    "requested_by": null,
+                    "method": null,
+                    "type": "consultation",
+                    "hub_id": 9
+                },
+                {
+                    "id": 2,
+                    "laterality": null,
+                    "indication": null,
+                    "anatomical_location": "Right hip",
+                    "requested_by": null,
+                    "method": null,
+                    "type": "operation",
+                    "hub_id": 10
+                },
+                {
+                    "id": 3,
+                    "laterality": null,
+                    "indication": null,
+                    "anatomical_location": null,
+                    "requested_by": null,
+                    "method": null,
+                    "type": "control appointments",
+                    "hub_id": 11
+                }
+            ],
+            "zmc_sat_time_functional_or_mental_state": [
+                {
+                    "id": 1,
+                    "date": [
+                        2018,
+                        8,
+                        25,
+                        0,
+                        0
+                    ],
+                    "hub_id": 10
+                }
+            ],
+            "zmc_sat_event_functional_or_mental_state": [
+                {
+                    "id": 1,
+                    "name": "Finding related to hearing",
+                    "value": "Hearing problems",
+                    "hub_id": 12
+                }
+            ],
+            "zmc_sat_person_patient_details": [
+                {
+                    "id": 1,
+                    "nname": "Peter",
+                    "vname": "P.J.",
+                    "gschl": "male",
+                    "natio": "NL",
+                    "nnams": "Tester",
+                    "gbdat": [
+                        1950,
+                        1,
+                        4,
+                        0,
+                        0
+                    ],
+                    "titel": "Dhr",
+                    "hub_id": 1
+                }
+            ]
+        }
+    ]
+}
