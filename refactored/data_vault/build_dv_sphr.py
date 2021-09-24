@@ -1,5 +1,6 @@
 import copy
 import pandas as pd
+from sqlalchemy.sql.expression import table
 from tabulate import tabulate
 
 from sqlalchemy import Table, MetaData, select
@@ -22,12 +23,21 @@ def hospital_picker(hospital):
     elif hospital == 'ZMC':
         return copy.deepcopy(zmc_sats), zmc_tags
 
-def table_picker(tag_name, tags):
-    return [tag['source'] for tag in tags if tag['tag'] == tag_name]
+def table_picker(tag_names, tags):
+    print(f"TAG NAMES: {tag_names}")
+    for tag in tags:
+        print(tag)
+        print("\n")
+        if tag['tag'] in tag_names:
+            print(f"ASKDJSKJSD: {tag}")
+    print([tag['source'] for tag in tags if tag['tag'] in tag_names])
+    return [tag['source'] for tag in tags if tag['tag'] in tag_names]
 
 def sat_picker(tables, sat_definitions):
+    print(F"TABLES: {tables}")
     sat_names = []
     for table in tables:
+        print(table)
         try:
             sat_definitions[table].pop('links')
         except:
@@ -40,6 +50,7 @@ def select_all_from_table(table_name, schema, database):
     engine = data_vault_connection(password, port, database)
     metadata = MetaData(bind=engine, schema=schema, reflect=True)
     table_obj = Table(table_name, metadata, autoload_with=engine)
+    print(table_obj)
     stmt = (select([table_obj]))
     result = engine.execute(stmt).fetchall()
     engine.dispose()
@@ -62,10 +73,15 @@ def get_satellites(hospital, schema, database, request_tags):
     sat_definitions, tag_definitions = hospital_picker(hospital)
     table_names = table_picker(request_tags, tag_definitions)
     sat_names = sat_picker(table_names, sat_definitions)
+    print(f"SAT NAMES: {sat_names}")
     sats = {}
     for table in sat_definitions:
-        sat_definitions[table].pop('links')
+        try:
+            sat_definitions[table].pop('links')
+        except:
+            print("ALREADY POPPED")
         for sat in sat_names:
+            print(f"SATELLITE {sat}")
             try:
                 sats[f"{hospital.lower()}_{sat}"] = select_all_from_table(sat, schema, database)
             except NoSuchTableError as e:
@@ -82,7 +98,6 @@ def build_dv_sphr(hospitals, schemas, database, request_tags):
         dv_sphr[hospital]['links'] = links
         sats = get_satellites(hospital, schema, database, request_tags)
         dv_sphr[hospital]['satellites'] = sats
-    # print(dv_sphr)
     return dv_sphr
 
 def convert_single_table(table_name, table_group):
@@ -96,12 +111,23 @@ def convert_tables(table_group, table_names):
     for df in df_tables:
         print(tabulate(df, headers='keys', tablefmt='psql'))
     return df_tables
-        
+
+def create_table_dfs(table_names, table_type, dv_sphr, hospitals):
+    tables = []
+    tables.extend([dv_sphr[hospital][table_type] for hospital in hospitals])
+    table_dfs = convert_tables(tables, table_names)
+    return table_dfs  
+
+def get_satellite_names(dv_sphr):
+    sat_names = []
+    for hospital in dv_sphr:
+        sat_names.extend([sat_name for sat_name in dv_sphr[hospital]['satellites']])
+    print(sat_names)
+    return sat_names
+
 def convert_to_single_dict(dv_sphr, hospitals):
     hub_names = ['hub_time', 'hub_person', 'hub_object', 'hub_location', 'hub_event']
-    hubs = []
-    hubs.extend([dv_sphr[hospital]['hubs'] for hospital in hospitals])
-    hub_dfs = convert_tables(hubs, hub_names)
+    hub_dfs = create_table_dfs(hub_names, 'hubs', dv_sphr, hospitals)
 
     link_names = [
         'time_person_link', 'time_object_link', 'time_location_link', 'time_event_link',
@@ -109,8 +135,9 @@ def convert_to_single_dict(dv_sphr, hospitals):
         'object_location_link', 'object_event_link',
         'location_event_link'
     ]
-    links = []
-    links.extend([dv_sphr[hospital]['links'] for hospital in hospitals])
-    link_dfs = convert_tables(links, link_names)
+    link_dfs = create_table_dfs(link_names, 'links', dv_sphr, hospitals)
+    
+    sat_names = get_satellite_names(dv_sphr)
+    sat_dfs = create_table_dfs(sat_names, 'satellites', dv_sphr, hospitals)
     
 
