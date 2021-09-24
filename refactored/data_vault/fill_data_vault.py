@@ -54,6 +54,8 @@ def get_max_hub_values(hospital, database, schema):
         result = engine.execute(max(hub_obj.c.id)).fetchone()[0]
         if result == None:
             result = 1
+        else:
+            result = result + 1
         max_hub_values[hub] = result
     return max_hub_values
 
