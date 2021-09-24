@@ -85,42 +85,32 @@ def build_dv_sphr(hospitals, schemas, database, request_tags):
     # print(dv_sphr)
     return dv_sphr
 
+def convert_single_table(table_name, table_group):
+    table = [table[table_name] for table in table_group]
+    table_dfs = [pd.DataFrame.from_dict(table_dict) for table_dict in table]
+    table_result = pd.concat(table_dfs, ignore_index=True, sort=False)
+    return table_result
 
-def convert_single_hub(hub_name, hubs):
-    hub = [hub[hub_name] for hub in hubs]
-    hub_dfs = [pd.DataFrame.from_dict(hub_table) for hub_table in hub]
-    hub_result = pd.concat(hub_dfs, ignore_index=True, sort=False)
-    return hub_result
-
-def convert_hubs(hubs):
-    hub_names = ['hub_time', 'hub_person', 'hub_object', 'hub_location', 'hub_event']
-    df_hubs = [convert_single_hub(hub_name, hubs) for hub_name in hub_names]
-    # hubs = [[hub[hub_name] for hub in hubs] for hub_name in hub_names]
-    # hub_dfs = [pd.DataFrame.from_dict(hub) for hub in hubs]
-    # hub_times = [hub['hub_time'] for hub in hubs]
-    # hub_persons = [hub['hub_person'] for hub in hubs]
-    # hub_objects = [hub['hub_object'] for hub in hubs]
-    # hub_locations = [hub['hub_location'] for hub in hubs]
-    # hub_events = [hub['hub_event'] for hub in hubs]
-    # time_dfs = [pd.DataFrame.from_dict(hub_time) for hub_time in hub_times]
-    # time_results = pd.concat(time_dfs, ignore_index=True, sort=False)
-    # df_time = DataFrame.from_dict(hub_times, orient='columns')
-    # print(time_results)
-    for df in df_hubs:
+def convert_tables(table_group, table_names):
+    df_tables = [convert_single_table(table_name, table_group) for table_name in table_names]
+    for df in df_tables:
         print(tabulate(df, headers='keys', tablefmt='psql'))
+    return df_tables
         
 def convert_to_single_dict(dv_sphr, hospitals):
+    hub_names = ['hub_time', 'hub_person', 'hub_object', 'hub_location', 'hub_event']
     hubs = []
     hubs.extend([dv_sphr[hospital]['hubs'] for hospital in hospitals])
-    convert_hubs(hubs)
-    # hubs = convert_hubs(dv_sphr[])
-    # single_dv = {}
-    # single_dv['hubs'] = []
-    # single_dv['links'] = []
-    # single_dv['satellites'] = []
-    # for hospital in hospitals:
-    #     single_dv['hubs'].append(dv_sphr[hospital]['hubs'])
-    #     single_dv['links'].append(dv_sphr[hospital]['links'])
-    #     single_dv['satellites'].append(dv_sphr[hospital]['satellites'])
-    # print(single_dv)
-    # return single_dv
+    hub_dfs = convert_tables(hubs, hub_names)
+
+    link_names = [
+        'time_person_link', 'time_object_link', 'time_location_link', 'time_event_link',
+        'person_object_link', 'person_location_link', 'person_event_link',
+        'object_location_link', 'object_event_link',
+        'location_event_link'
+    ]
+    links = []
+    links.extend([dv_sphr[hospital]['links'] for hospital in hospitals])
+    link_dfs = convert_tables(links, link_names)
+    
+
